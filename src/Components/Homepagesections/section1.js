@@ -4,7 +4,7 @@ import React from 'react';
 function Section1() {
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center h-screen ">
       <div className="space-x-4">
       <Link 
        target="_blank"

@@ -1,0 +1,172 @@
+.maindivcontent1 {
+  width: 100%;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+justify-content: center;
+  
+}
+
+.maindivcontent2{
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.steptitles{
+    font-size: 20px;
+}
+.titledivfor1,
+.titlediv2 h3 {
+  font-weight: 400;
+  font-size: 18px;
+}
+.titledivfor1,
+.titlediv2 h1 {
+  font-size: 22px;
+  font-weight: 700;
+}
+.titledivfor1,
+.titlediv2 {
+  color: black;
+}
+
+.currentIcon span {
+  background-color: yellow;
+  color: black;
+}
+.customIcon {
+  padding: 6px;
+  background-color: black;
+  font-size: 24px;
+  color: white;
+  border-radius: 38px;
+}
+
+.ant-steps-item-tail {
+  border-color: red; /* Change the color of the line between icons to red */
+}
+
+.titleinsteps {
+  color: black;
+  font-weight: 700;
+}
+
+.inputbuttondiv input {
+  padding: 12px 21px;
+  background-color: transparent;
+  border: 0.5px solid rgba(0, 0, 0, 0.458);
+  border-radius: 11px;
+  margin: 0px 5px;
+}
+
+.buttonin1step:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+.buttonin1step:hover {
+    font-weight: 900;
+  /* background: #783cef; */
+
+}
+.buttonin1step {
+  font-family: monospace;
+  font-size: 1.5rem;
+  color: #fafafa;
+  text-transform: uppercase;
+  padding: 2px 25px;
+  border: 1px solid #9662FE;
+  background: #9662FE;
+  box-shadow: 4px 6px #9662fe54;
+  cursor: pointer;
+  margin: 35px 10px;
+}
+
+.buttonin11step:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+  }
+  .buttonin11step:hover {
+    font-weight: 900;
+  /* background: #ffffff; */
+  }
+  .buttonin11step {
+    font-family: monospace;
+    font-size: 1.5rem;
+    color: #FF4646;
+    text-transform: uppercase;
+    padding: 1px 25px;
+    border: 2px solid #FF4646;
+    background: white;
+    box-shadow: 4px 6px #FF4646;
+    cursor: pointer;
+    margin: 35px 10px;
+  }
+
+.divbtninput {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tablediv th{
+padding: 7px;
+}
+.tablediv{
+    padding: 10px 45px;
+
+}
+.tablediv thead{
+    background-color: #c0a0ff61;
+    border: 0.5px solid #C0A0FF;
+}
+.tablediv table{
+    width: 100%;
+    color: black;
+}
+
+.tablediv td{
+   padding: 5px;
+}
+
+.trtagbody{
+    border-bottom: 1px solid #00000030;
+}
+
+.maindivof4{
+    min-height: 360px;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+
+.headingdiv11 {
+    font-weight: 600;
+    margin: 0px 8px;
+}
+.headingdiv1 {
+    background-color: #FFD600;
+    padding: 5px; /* Adjust padding as needed */
+    font-weight: bolder;
+    display: inline-block; /* Ensure the div is inline-block to apply the skew */
+    transform: skew(25deg);
+    margin: 20px 0; /* Adjust margin to prevent other elements from overlapping */
+    position: relative;
+  }
+  
+  .headingdiv1 span {
+    display: block;
+    transform: skew(334deg);
+  }
+  
+  
+
+.headingdiv{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}

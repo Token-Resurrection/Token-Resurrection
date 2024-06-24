@@ -1,15 +1,20 @@
 import React from 'react';
+import navstyle from "./navabr.module.css";
 
 function Navbar() {
   return (
-    <div className="bg-gray-800 p-4">
+    <div className=" p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-white text-lg font-bold">
+        <div className="text-black text-2xl font-bold">
           Token Resurrection
         </div>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+        {/* <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"> */}
+        <div className={navstyle.walletbtncontainer}>
+
+        <button className={navstyle.walletbtn}>
           Wallet Connect
         </button>
+        </div>
       </div>
     </div>
   );

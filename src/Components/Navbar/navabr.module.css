@@ -1,0 +1,40 @@
+.walletbtncontainer {
+  position: relative;
+  display: inline-block;
+}
+
+.walletbtn {
+  background-color: #FFD600;
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-weight: 700;
+  border: none;
+  color: #000; /* Text color */
+  cursor: pointer; /* Pointer cursor on hover */
+  display: inline-block;
+  position: relative;
+  border-radius: 50% / 50% 50% 50% 50%;
+  z-index: 1;
+  transition: transform 0.3s ease; /* Smooth transition for the button */
+}
+
+.walletbtn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50% / 50% 50% 50% 50%;
+  border: 1px solid black; /* Border color */
+  transform: skewY(-10deg); /* Skew the border vertically */
+  z-index: -1;
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.walletbtn:hover {
+  transform: translateY(-5px); /* Shift up on hover */
+}
+
+.walletbtn:hover::before {
+  transform: skewY(0deg); /* Remove skew on hover */
+}

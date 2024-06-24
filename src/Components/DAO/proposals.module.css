@@ -1,0 +1,135 @@
+.maindivofproposal1 {
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  background: white;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  box-shadow:rgb(255 255 255 / 12%) 0px 1px 1px 0px inset, rgb(50 50 93 / 0%) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  border-radius: 46px;
+  margin-top: 25px;
+}
+
+.outerdivprop1 {
+  /* padding: 5px 36px; */
+  padding: 2rem 4rem;
+}
+
+.headingprop {
+  font-weight: 700;
+  color: #9662fe;
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.tablediv table {
+  width: 100%;
+}
+.tablediv thead {
+  background-color: #d9d9d9;
+}
+.tablediv tr {
+  border-bottom: 1px solid #00000045;
+}
+.tablediv {
+  display: flex;
+  height: 200px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 45px;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 60px;
+  border-radius: 38px;
+  min-width: 900px;
+  min-height: 500px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.209);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  animation: fadeOverlay 0.3s ease-out;
+}
+
+.divdetail{
+    margin: 5px 2px;
+    padding: 14px 20px;
+    width: 100%;
+    border: 1px solid #0000004f;
+    border-radius: 10px;
+    display: flex;
+}
+
+.titledetail{
+    border-right: 1px solid black;
+    margin-right: 10px;
+    padding: 2px 16px;
+}
+
+.titlecontent{
+    padding: 2px 6px;
+}
+
+.buttonin2step:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+  }
+  .buttonin2step:hover {
+      font-weight: 900;
+    /* background: #783cef; */
+  
+  }
+  .buttonin2step {
+    font-family: monospace;
+    font-size: 1.5rem;
+    color: #fafafa;
+    text-transform: uppercase;
+    padding: 2px 25px;
+    border: 1px solid #2EBF82;
+    background: #2EBF82;
+    box-shadow: 4px 6px #5BFFBA;
+    cursor: pointer;
+    margin: 35px 10px;
+  }
+
+  .buttonin3step:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+  }
+  .buttonin3step:hover {
+      font-weight: 900;
+    /* background: #783cef; */
+  
+  }
+  .buttonin3step {
+    font-family: monospace;
+    font-size: 1.5rem;
+    color: #FF4646;
+    text-transform: uppercase;
+    padding: 2px 25px;
+    border: 1px solid #FF4646;
+    background: white;
+    box-shadow: 4px 6px #FF4646;
+    cursor: pointer;
+    margin: 35px 10px;
+  }

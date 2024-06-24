@@ -3,7 +3,7 @@ import React from 'react'
 
 function page() {
   return (
-    <div className="h-screen bg-gray-100 text-black">
+    <div className="h-screen text-black">
 <Stepform/>
     </div>
   )
