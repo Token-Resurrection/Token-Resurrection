@@ -213,3 +213,85 @@
   justify-content: center;
   align-items: center;
 }
+.checkpage {
+  width: 100%;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* To replicate `items-center` from Tailwind */
+
+}
+.btncheck {
+  font-family: monospace;
+    font-size: 1.5rem;
+    color:#FF8A00;
+    text-transform: uppercase;
+    padding: 1px 25px;
+    border: 2px solid #ffb320;
+    background: white;
+    box-shadow: 4px 6px #ffb320;
+    cursor: pointer;
+    margin: 35px 10px;
+
+  left: 20px;
+  transition: background-color 300ms ease-out, color 300ms ease-out, box-shadow 300ms ease-out;
+}
+
+.btncheck:hover {
+  background-color: #FF8A00;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  font-weight: 900;
+
+}
+/* stepfrom.module.css */
+
+.buttonin1steplist {
+  font-family: monospace;
+  font-size: 1.5rem;
+  color: #fafafa;
+  text-transform: uppercase;
+  padding: 2px 25px;
+  border: 1px solid #9662FE;
+  background: #9662FE;
+  box-shadow: 4px 6px #9662fe54;
+  cursor: pointer;
+  margin: 35px 10px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem; /* 14px */
+}
+
+.btnchecklist {font-family: monospace;
+  font-size: 1.5rem;
+  color:#FF8A00;
+  text-transform: uppercase;
+  padding: 1px 25px;
+  border: 2px solid #ffb320;
+  background: white;
+  box-shadow: 4px 6px #ffb320;
+  cursor: pointer;
+  margin: 35px 10px;
+
+left: 20px;
+transition: background-color 300ms ease-out, color 300ms ease-out, box-shadow 300ms ease-out;
+
+  /* Your existing styles */
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem; /* 14px */
+}
+.btnchecklist:hover {
+  background-color: #FF8A00;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  font-weight: 900;
+
+}
+.buttonin1steplist:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+.buttonin1steplist:hover {
+  font-weight: 900;
+/* background: #ffffff; */
+}
