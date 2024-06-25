@@ -14,7 +14,7 @@ const dummyData = [
 
 // Modal.setAppElement('#root'); 
 
-function Completedproposal() {
+function Rejectedproposal() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
 
@@ -30,16 +30,14 @@ function Completedproposal() {
   return (
     <div className={propstyle.outerdivprop1}>
       <div className={propstyle.maindivofproposal1}>
-        <div className={propstyle.headingprop}>Submitted Proposal</div>
+        <div className={propstyle.headingprop}>Rejected Proposal</div>
         <div className={propstyle.tablediv}>
           <table>
             <thead className="text-center">
               <tr>
                 <th>Proposal</th>
                 <th>Token</th>
-                <th>Explore</th>
                 <th>Action</th>
-
                 <th>Status</th>
               </tr>
             </thead>
@@ -50,9 +48,6 @@ function Completedproposal() {
                   <td>{item.token}</td>
                   <td>
                     <button onClick={() => openModal(item)}>View</button>
-                  </td>
-                  <td>
-                    <button>Action</button>
                   </td>
                   <td>{item.status}</td>
                 </tr>
@@ -104,4 +99,4 @@ function Completedproposal() {
   );
 }
 
-export default Completedproposal;
+export default Rejectedproposal;

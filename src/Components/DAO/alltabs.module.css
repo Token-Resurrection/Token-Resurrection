@@ -1,0 +1,13 @@
+.tabbutton {
+    background-color: aquamarine;
+    padding: 5px
+  }
+  
+  .ant-tabs-tab-active .tabbutton {
+    @apply bg-black text-white;
+  }
+  
+  .tabcontent {
+    @apply  text-center;
+  }
+  
