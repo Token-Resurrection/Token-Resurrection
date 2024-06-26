@@ -46,7 +46,7 @@ const secondstep = () => {
     <div className={formstyle.maindivcontent2}>
       <div className={formstyle.titlediv2}>
         <h1>Discover Your Holdings</h1>
-        <h3>All Your Locked Tokens in One Place!</h3>
+        {/* <h3>All Your Locked Tokens in One Place!</h3> */}
       </div>
       <div className={formstyle.tablediv}>
         <table>
@@ -74,7 +74,7 @@ const secondstep = () => {
 
 const thirdstep = () => {
   return (
-    <div className={formstyle.main}>
+    <div className={formstyle.maindivcontent2}>
       <div className={formstyle.titlediv2}>
         {/* <h1>Discover Your Holdings</h1>
         <h3>All Your Locked Tokens in One Place!</h3> */}
@@ -177,7 +177,8 @@ const Stepform = () => {
   };
 
   return (
-    <div className="p-20">
+    // <div className="p-20 sm:p-5">
+    <div className={formstyle.mainndiv}>
       <Steps current={current} items={items} />
       <div className=" text-black" style={contentStyle}>
         {steps[current].content}

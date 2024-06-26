@@ -9,6 +9,14 @@ const dummyData = [
   { proposal: "Proposal 1", token: "Token A", status: "Active" },
   { proposal: "Proposal 2", token: "Token B", status: "Pending" },
   { proposal: "Proposal 3", token: "Token C", status: "Completed" },
+  { proposal: "Proposal 1", token: "Token A", status: "Active" },
+  { proposal: "Proposal 2", token: "Token B", status: "Pending" },
+  { proposal: "Proposal 3", token: "Token C", status: "Completed" },
+  { proposal: "Proposal 2", token: "Token B", status: "Pending" },
+  { proposal: "Proposal 3", token: "Token C", status: "Completed" },
+  { proposal: "Proposal 1", token: "Token A", status: "Active" },
+  { proposal: "Proposal 2", token: "Token B", status: "Pending" },
+  { proposal: "Proposal 3", token: "Token C", status: "Completed" },
   // Add more dummy data as needed
 ];
 
@@ -37,6 +45,7 @@ function Activeproposal() {
               <tr>
                 <th>Proposal</th>
                 <th>Token</th>
+                <th>Explore</th>
                 <th>Action</th>
                 <th>Status</th>
               </tr>
@@ -48,6 +57,9 @@ function Activeproposal() {
                   <td>{item.token}</td>
                   <td>
                     <button onClick={() => openModal(item)}>View</button>
+                  </td> 
+                  <td>
+                    <button>Action</button>
                   </td>
                   <td>{item.status}</td>
                 </tr>

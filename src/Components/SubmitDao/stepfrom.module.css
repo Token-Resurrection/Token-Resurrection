@@ -13,6 +13,10 @@
   justify-content: center;
 }
 
+.mainndiv {
+  padding: 80px;
+}
+
 .steptitles {
   font-size: 20px;
 }
@@ -112,14 +116,16 @@
 }
 .tablediv {
   margin-right: 50px;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   height: 300px;
-  overflow-y: scroll;
+  overflow: auto; /* Allow both vertical and horizontal scrolling */
   padding: 10px 6px;
   margin-left: 50px;
 }
+
 .tablediv::-webkit-scrollbar {
-  width: 3px; /* Width of the scrollbar */
+  width: 3px; /* Width of the vertical scrollbar */
+  height: 3px; /* Height of the horizontal scrollbar */
 }
 
 .tablediv::-webkit-scrollbar-track {
@@ -131,6 +137,7 @@
   border-radius: 10px; /* Round the corners of the scrollbar thumb */
   border: 1px solid grey; /* Optional: Add a border around the scrollbar thumb */
 }
+
 
 .tablediv table {
   border-collapse: separate;
@@ -220,30 +227,29 @@
   flex-direction: column;
   justify-content: center;
   align-items: center; /* To replicate `items-center` from Tailwind */
-
 }
 .btncheck {
   font-family: monospace;
-    font-size: 1.5rem;
-    color:#FF8A00;
-    text-transform: uppercase;
-    padding: 1px 25px;
-    border: 2px solid #ffb320;
-    background: white;
-    box-shadow: 4px 6px #ffb320;
-    cursor: pointer;
-    margin: 35px 10px;
+  font-size: 1.5rem;
+  color: #ff8a00;
+  text-transform: uppercase;
+  padding: 1px 25px;
+  border: 2px solid #ffb320;
+  background: white;
+  box-shadow: 4px 6px #ffb320;
+  cursor: pointer;
+  margin: 35px 10px;
 
   left: 20px;
-  transition: background-color 300ms ease-out, color 300ms ease-out, box-shadow 300ms ease-out;
+  transition: background-color 300ms ease-out, color 300ms ease-out,
+    box-shadow 300ms ease-out;
 }
 
 .btncheck:hover {
-  background-color: #FF8A00;
+  background-color: #ff8a00;
   color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   font-weight: 900;
-
 }
 /* stepfrom.module.css */
 
@@ -253,8 +259,8 @@
   color: #fafafa;
   text-transform: uppercase;
   padding: 2px 25px;
-  border: 1px solid #9662FE;
-  background: #9662FE;
+  border: 1px solid #9662fe;
+  background: #9662fe;
   box-shadow: 4px 6px #9662fe54;
   cursor: pointer;
   margin: 35px 10px;
@@ -262,9 +268,10 @@
   font-size: 0.875rem; /* 14px */
 }
 
-.btnchecklist {font-family: monospace;
+.btnchecklist {
+  font-family: monospace;
   font-size: 1.5rem;
-  color:#FF8A00;
+  color: #ff8a00;
   text-transform: uppercase;
   padding: 1px 25px;
   border: 2px solid #ffb320;
@@ -273,19 +280,19 @@
   cursor: pointer;
   margin: 35px 10px;
 
-left: 20px;
-transition: background-color 300ms ease-out, color 300ms ease-out, box-shadow 300ms ease-out;
+  left: 20px;
+  transition: background-color 300ms ease-out, color 300ms ease-out,
+    box-shadow 300ms ease-out;
 
   /* Your existing styles */
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem; /* 14px */
 }
 .btnchecklist:hover {
-  background-color: #FF8A00;
+  background-color: #ff8a00;
   color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   font-weight: 900;
-
 }
 .buttonin1steplist:active {
   box-shadow: none;
@@ -293,5 +300,41 @@ transition: background-color 300ms ease-out, color 300ms ease-out, box-shadow 30
 }
 .buttonin1steplist:hover {
   font-weight: 900;
-/* background: #ffffff; */
+  /* background: #ffffff; */
+}
+
+@media only screen and (max-width: 427px) {
+  .mainndiv {
+    padding: 20px;
+  }
+
+  .divbtninput {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tablediv thead{
+    font-size: 14px;
+  }
+
+  .trtagbody{
+    font-size: 12px;
+  }
+  .headingdiv{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .buttonin11step, .buttonin1step {
+    font-size: 1rem;
+  }
+}
+
+/* @media only screen and (min-width: 769px) and (max-width: 427px) { */
+@media only screen and (max-width: 769px) {
+  .titleinsteps {
+    font-size: 11px !important;
+  }
 }

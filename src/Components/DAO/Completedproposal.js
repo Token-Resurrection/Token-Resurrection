@@ -9,6 +9,12 @@ const dummyData = [
   { proposal: "Proposal 1", token: "Token A", status: "Active" },
   { proposal: "Proposal 2", token: "Token B", status: "Pending" },
   { proposal: "Proposal 3", token: "Token C", status: "Completed" },
+  { proposal: "Proposal 1", token: "Token A", status: "Active" },
+  { proposal: "Proposal 2", token: "Token B", status: "Pending" },
+  { proposal: "Proposal 3", token: "Token C", status: "Completed" },
+  { proposal: "Proposal 1", token: "Token A", status: "Active" },
+  { proposal: "Proposal 2", token: "Token B", status: "Pending" },
+  { proposal: "Proposal 3", token: "Token C", status: "Completed" },
   // Add more dummy data as needed
 ];
 

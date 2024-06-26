@@ -1,47 +1,48 @@
 "use client";
 import React, { useState } from "react";
-import { Tabs } from "antd";
 import Activeproposal from "./Activeproposal";
 import Rejectedproposal from "./Rejectedproposals";
 import Pendingproposal from "./Pendingproposals";
 import Completedproposal from "./Completedproposal";
-import 'tailwindcss/tailwind.css';
 import tabstyle from "./alltabs.module.css";
 
 const Alltabs = () => {
-  const [activeKey, setActiveKey] = useState("1");
+  const [activeTab, setActiveTab] = useState("1");
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <Tabs
-        activeKey={activeKey}
-        onChange={(key) => setActiveKey(key)}
-        type="card"
-        tabBarStyle={{ backgroundColor: 'white' }}
-        className="w-3/4 border"
-        items={[
-          {
-            label: <div className={tabstyle.tabbutton}>Active Proposals</div>,
-            key: "1",
-            children: <div className={tabstyle.tabcontent}><Activeproposal /></div>,
-          },
-          {
-            label: <div className={tabstyle.tabbutton}>Submitted Proposals</div>,
-            key: "2",
-            children: <div className={tabstyle.tabcontent}><Completedproposal /></div>,
-          },
-          {
-            label: <div className={tabstyle.tabbutton}>Pending Proposals</div>,
-            key: "3",
-            children: <div className={tabstyle.tabcontent}><Pendingproposal /></div>,
-          },
-          {
-            label: <div className={tabstyle.tabbutton}>Rejected Proposals</div>,
-            key: "4",
-            children: <div className={tabstyle.tabcontent}><Rejectedproposal /></div>,
-          },
-        ]}
-      />
+    <div className={tabstyle.container}>
+      <div className={tabstyle.tabHeaders}>
+        <button
+          className={`${tabstyle.tabButton1} ${activeTab === "1" ? tabstyle.active : ""}`}
+          onClick={() => setActiveTab("1")}
+        >
+          Active Proposals
+        </button>
+        <button
+          className={`${tabstyle.tabButton2} ${activeTab === "2" ? tabstyle.active : ""}`}
+          onClick={() => setActiveTab("2")}
+        >
+          Submitted Proposals
+        </button>
+        <button
+          className={`${tabstyle.tabButton3} ${activeTab === "3" ? tabstyle.active : ""}`}
+          onClick={() => setActiveTab("3")}
+        >
+          Pending Proposals
+        </button>
+        <button
+          className={`${tabstyle.tabButton4} ${activeTab === "4" ? tabstyle.active : ""}`}
+          onClick={() => setActiveTab("4")}
+        >
+          Rejected Proposals
+        </button>
+      </div>
+      <div className={tabstyle.tabContent}>
+        {activeTab === "1" && <Activeproposal />}
+        {activeTab === "2" && <Completedproposal />}
+        {activeTab === "3" && <Pendingproposal />}
+        {activeTab === "4" && <Rejectedproposal />}
+      </div>
     </div>
   );
 };
