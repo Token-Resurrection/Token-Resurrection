@@ -228,6 +228,9 @@
   justify-content: center;
   align-items: center; /* To replicate `items-center` from Tailwind */
 }
+
+
+
 .btncheck {
   font-family: monospace;
   font-size: 1.5rem;
@@ -300,41 +303,25 @@
 }
 .buttonin1steplist:hover {
   font-weight: 900;
-  /* background: #ffffff; */
+
+}.buttonin1steplist2 {
+  font-family: monospace;
+  font-size: 1.5rem;
+  color: #fafafa;
+  text-transform: uppercase;
+  padding: 2px 25px;
+  border: 1px solid #9662FE;
+  background: #9662FE;
+  box-shadow: 4px 6px #9662fe54;
+  cursor: pointer;
+  margin: 2px 15px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem; /* 14px */
 }
-
-@media only screen and (max-width: 427px) {
-  .mainndiv {
-    padding: 20px;
-  }
-
-  .divbtninput {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .tablediv thead{
-    font-size: 14px;
-  }
-
-  .trtagbody{
-    font-size: 12px;
-  }
-  .headingdiv{
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  .buttonin11step, .buttonin1step {
-    font-size: 1rem;
-  }
+.buttonin1steplist2:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
 }
+.buttonin1steplist2:hover {
+  font-weight: 900;}
 
-/* @media only screen and (min-width: 769px) and (max-width: 427px) { */
-@media only screen and (max-width: 769px) {
-  .titleinsteps {
-    font-size: 11px !important;
-  }
-}
