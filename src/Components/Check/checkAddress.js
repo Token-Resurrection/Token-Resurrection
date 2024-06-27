@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import AddressList from './addressList';
+import AddressList from '../../Components/Check/addressList';
 import formstyle from "../../Components/SubmitDao/stepfrom.module.css";
 
 function AnotherComponent({ onGoBack }) {
@@ -28,9 +28,15 @@ function AnotherComponent({ onGoBack }) {
     }
   };
 
+  const handleGoBack = () => {
+    setShowAddressList(false);
+    setIsValid(null);
+    setWalletAddress('');
+  };
+
   return (
     showAddressList ? (
-      <AddressList onGoBack={onGoBack} />
+      <AddressList onGoBack={handleGoBack} />
     ) : (
       <div className="text-center flex flex-col justify-center h-full">
         <div className="text-gray-900 text-2xl font-bold p-4 m-4">
@@ -58,7 +64,6 @@ function AnotherComponent({ onGoBack }) {
             Check Address
           </button>
         </div>
-  
       </div>
     )
   );
