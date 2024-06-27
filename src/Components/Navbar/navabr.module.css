@@ -9,16 +9,18 @@
 }
 .walletbtn {
   background-color: #FFD600;
-  padding: 5px 20px;
+  padding: 14px 33px;
   font-weight: 700;
   border: none;
   color: #000;
   cursor: pointer;
   display: inline-block;
+  font-size: 15px;
   position: relative;
   border-radius: 50%;
   z-index: 1;
   transition: transform 0.3s ease;
+
 }
 
 .walletbtn::before {
@@ -42,4 +44,10 @@
 
 .walletbtn:hover::before {
   transform: skewY(0deg);
+}
+
+.dynamicWidth {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
 }
