@@ -1,7 +1,8 @@
+"use client";
 import React from "react";
-import { ConnectAccount } from "@coinbase/onchainkit/wallet";
-import '@coinbase/onchainkit/styles.css';
-import style from './navabr.module.css'; // Import your custom styles
+// import { ConnectAccount } from "@coinbase/onchainkit/wallet";
+import "@coinbase/onchainkit/styles.css";
+import style from "./navabr.module.css"; // Import your custom styles
 import AccountConnect from "./ConnectAccount";
 // import ConnectAccountWrapper from "./Connectwrapperaccount";
 
@@ -13,7 +14,7 @@ function Navbar() {
         <div className={style.walletbtncontainer}>
           <div className={style.walletbtn}>
             {/* <ConnectAccount /> */}
-              <AccountConnect/>
+            <AccountConnect/>
             {/* <ConnectAccountWrapper/> */}
           </div>
         </div>
