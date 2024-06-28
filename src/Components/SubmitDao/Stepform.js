@@ -12,6 +12,8 @@ import { useReadContract } from "wagmi";
 import { getTokenBalance } from "@/Helpers/UseTokenBalance";
 import propstyle from "../DAO/proposals.module.css";
 import { SmileOutlined } from "@ant-design/icons";
+import SuccessResult from "./SuccessResult";
+import FailureResult from "./FailureResult";
 
 const StepForm = () => {
   const { token } = theme.useToken();
@@ -23,7 +25,9 @@ const StepForm = () => {
   const [Totalamount, setTotalamount] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [transactions, setTransactions] = useState([]);
-
+const [getHolderscount, setHolderscount] = useState("");
+const [submissionStatus, setSubmissionStatus] = useState(null);
+const [errorMessage, setErrorMessage] = useState("");
   const handleOpenModal = () => {
     setModalVisible(true);
   };
@@ -32,6 +36,7 @@ const StepForm = () => {
   const handleCloseModal = () => {
     setModalVisible(false);
   };
+ 
   const postTransaction = async (Transactionobj) => {
     try {
       const response = await fetch("http://localhost:3001/api/transactions", {
@@ -45,6 +50,8 @@ const StepForm = () => {
       setTotalamount(data.totalAmount);
       setTransactions(data.transactions);
       console.log(data.transactions);
+      const gettnx = data.transactions;
+      setHolderscount(gettnx.length)
       if (response.ok) {
         console.log("Transaction posted successfully!");
         if (data.totalAmount) {
@@ -97,6 +104,7 @@ const StepForm = () => {
       return;
     }
 
+    
     try {
       console.log("trying to post");
       setSubmitting(true);
@@ -109,19 +117,38 @@ const StepForm = () => {
       });
       if (response.ok) {
         console.log("Token submission successful!");
-        openNotification();
-        // Optionally handle success message or further actions
+        setSubmissionStatus("success");
+        message.info("Proposal  submission successful")
+
       } else {
         console.error("Token submission failed:", response.statusText);
-        // Handle error scenario as needed
+        setSubmissionStatus("error");
+        setErrorMessage(response.statusText);
+        message.info("Proposal  submission failed")
       }
     } catch (error) {
       console.error("Error submitting token:", error.message);
-      // Handle network errors or other exceptions
+      setSubmissionStatus("error");
+      setErrorMessage(error.message);
+      message.info("Error submitting proposal")
+
     } finally {
       setSubmitting(false);
     }
   };
+  const handleReset = () => {
+    setSubmissionStatus(null);
+    setErrorMessage("");
+  };
+
+  if (submissionStatus === "success") {
+    return <SuccessResult onReset={handleReset} />;
+  }
+
+  if (submissionStatus === "error") {
+    return <FailureResult onReset={handleReset} message={errorMessage} />;
+  }
+
   const handleInputChange = (e) => {
     const value = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
     setContractAddress(value);
@@ -131,6 +158,7 @@ const StepForm = () => {
     setStoredAddress(contractAddress);
     console.log("Stored Address:", contractAddress);
     setCurrent(current + 1);
+    message.info("Fetching Token Details")
   };
 
   const FirstStep = () => {
@@ -223,6 +251,7 @@ const StepForm = () => {
     };
     setSelectedToken(Proposalobject);
     console.log("Selected Token:", Proposalobject);
+    message.info("Generating your Proposal!")
     setCurrent(current + 1);
   };
 
@@ -302,7 +331,7 @@ const StepForm = () => {
                     </button>
                   </Tooltip>
                 </div>
-                <div className={propstyle.titlecontent}>200</div>
+                <div className={propstyle.titlecontent}>{getHolderscount}</div>
               </div>
             </div>
             <div className={propstyle.divdetail}>
