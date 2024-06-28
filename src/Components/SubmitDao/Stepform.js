@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { Button, message, Steps, theme } from "antd";
+import React, { useState, useEffect } from "react";
+import { Button, Modal, message, Skeleton, Steps, theme, Tooltip } from "antd";
 import {
   SolutionOutlined,
   UserOutlined,
@@ -8,155 +8,360 @@ import {
   UnorderedListOutlined,
 } from "@ant-design/icons";
 import formstyle from "./stepfrom.module.css";
-import { icons } from "antd/es/image/PreviewGroup";
-import { Label } from "@headlessui/react";
+import { useReadContract } from "wagmi";
+import { getTokenBalance } from "@/Helpers/UseTokenBalance";
+import propstyle from "../DAO/proposals.module.css";
+import { SmileOutlined } from "@ant-design/icons";
 
-const firststep = () => {
-  return (
-    <div className={formstyle.maindivcontent1}>
-      <div className={formstyle.titledivfor1}>
-        {/* <h1>Token Discovery</h1> */}
-        <h3>Enter Your Contract Address to Discover Hidden Tokens!</h3>
-      </div>
-      <div className={formstyle.divbtninput}>
-        <div className={formstyle.inputbuttondiv}>
-
-        <input placeholder="Enter Address" />
-        </div>
-        <div>
-          <button className={formstyle.buttonin1step}>Submit</button>
-          <button className={formstyle.buttonin11step}>Back</button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const jsonData = [
-  { tokenName: "Token A", tokenAddress: "0xEd154b193FabDb2ef502Edb98284005CcF148516", amount: 100 },
-  { tokenName: "Token B", tokenAddress: "0xEd154b193FabDb2ef502Edb98284005CcF148516", amount: 200 },
-  { tokenName: "Token C", tokenAddress: "0xEd154b193FabDb2ef502Edb98284005CcF148516", amount: 300 },
-  { tokenName: "Token A", tokenAddress: "0xEd154b193FabDb2ef502Edb98284005CcF148516", amount: 100 },
-  { tokenName: "Token B", tokenAddress: "0xEd154b193FabDb2ef502Edb98284005CcF148516", amount: 200 },
-  { tokenName: "Token C", tokenAddress: "0xEd154b193FabDb2ef502Edb98284005CcF148516", amount: 300 },
-];
-
-const secondstep = () => {
-  return (
-    <div className={formstyle.maindivcontent2}>
-      <div className={formstyle.titlediv2}>
-        <h1>Discover Your Holdings</h1>
-        {/* <h3>All Your Locked Tokens in One Place!</h3> */}
-      </div>
-      <div className={formstyle.tablediv}>
-        <table>
-          <thead>
-            <tr>
-              <th>Token Name</th>
-              <th>Token Address</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {jsonData.map((token, index) => (
-              <tr className={formstyle.trtagbody} key={index}>
-                <td>{token.tokenName}</td>
-                <td>{token.tokenAddress}</td>
-                <td>{token.amount}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-};
-
-const thirdstep = () => {
-  return (
-    <div className={formstyle.maindivcontent2}>
-      <div className={formstyle.titlediv2}>
-        {/* <h1>Discover Your Holdings</h1>
-        <h3>All Your Locked Tokens in One Place!</h3> */}
-        <h1>Explore Token</h1>
-      </div>
-      <div className={formstyle.tablediv}>
-        <table>
-          <thead>
-            <tr>
-              <th>Token Name</th>
-              <th>Token Address</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {jsonData.map((token, index) => (
-              <tr className={formstyle.trtagbody} key={index}>
-                <td>{token.tokenName}</td>
-                <td>{token.tokenAddress}</td>
-                <td>{token.amount}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-};
-
-const fourthstep = () => {
-  return (
-    <div>
-      <div className={formstyle.maindivof4}>
-        <div className={formstyle.headingdiv}>
-        <div className={formstyle.headingdiv1}><span>Review & Submit.</span></div>
-        <div className={formstyle.headingdiv11}>Verify the details thoroughly and submit to DAO for review.</div>
-        </div>
-        <div className={formstyle.buttondiv}>
-        <button className={formstyle.buttonin1step}>Submit</button>
-        <button className={formstyle.buttonin11step}>Back</button>
-        </div>
-      </div>
-    </div>
-  )}
-
-const steps = [
-  {
-    title: <div className={formstyle.steptitles}>Verify Address</div>,
-    content: firststep(),
-    icon: <UserOutlined className={formstyle.customIcon} />,
-  },
-  {
-    title: <div className={formstyle.steptitles}>Check Lock Token</div>,
-    content: secondstep(),
-    icon: <UnorderedListOutlined className={formstyle.customIcon} />,
-  },
-  {
-     title: <div className={formstyle.steptitles}>Explore Token</div>,
-    content: thirdstep(),
-    icon: <SolutionOutlined className={formstyle.customIcon} />,
-  },
-  {
-     title: <div className={formstyle.steptitles}>Submit for review</div>,
-    content: fourthstep(),
-    icon: <CheckCircleOutlined className={formstyle.customIcon} />,
-  },
-];
-
-const Stepform = () => {
+const StepForm = () => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
+  const [contractAddress, setContractAddress] = useState("");
+  const [storedAddress, setStoredAddress] = useState("");
+  const [selectedToken, setSelectedToken] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [Totalamount, setTotalamount] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [transactions, setTransactions] = useState([]);
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+
+  // Function to handle closing the modal
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+  const postTransaction = async (Transactionobj) => {
+    try {
+      const response = await fetch("http://localhost:3001/api/transactions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Transactionobj),
+      });
+      const data = await response.json();
+      setTotalamount(data.totalAmount);
+      setTransactions(data.transactions);
+      console.log(data.transactions);
+      if (response.ok) {
+        console.log("Transaction posted successfully!");
+        if (data.totalAmount) {
+          // setTotalamount(data.totalAmount)
+        }
+      } else {
+        console.error("Transaction post failed:", data);
+      }
+    } catch (error) {
+      console.error("Error posting transaction:", error.message);
+    }
+  };
+
+  const TransactionsModalContent = () => {
+    // Function to truncate address
+    const truncateAddress = (from, length) =>
+      `${from.substring(0, length)}...${from.substring(
+        from.length - length,
+        from.length
+      )}`;
+
+    return (
+      <div className="p-4 max-h-80 overflow-y-auto">
+        <h2 className="text-lg font-bold mb-4">
+          Addresses of Token Holder and Amount locked{" "}
+        </h2>
+        <div className="space-y-2 font-bold">
+          {transactions.map((transaction, index) => (
+            <div
+              key={index}
+              className={`flex justify-between py-2 ${
+                index % 2 === 0 ? "bg-gray-100" : "bg-white"
+              }`}
+            >
+              <div className="text-gray-800">
+                {truncateAddress(transaction.from, 8)}{" "}
+                {/* Adjust length as needed */}
+              </div>
+
+              <div className="text-gray-600">{transaction.amount}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+  const handleSubmit = async () => {
+    if (!selectedToken) {
+      console.error("No token selected to submit.");
+      return;
+    }
+
+    try {
+      console.log("trying to post");
+      setSubmitting(true);
+      const response = await fetch("http://localhost:3001/api/proposals", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(selectedToken),
+      });
+      if (response.ok) {
+        console.log("Token submission successful!");
+        openNotification();
+        // Optionally handle success message or further actions
+      } else {
+        console.error("Token submission failed:", response.statusText);
+        // Handle error scenario as needed
+      }
+    } catch (error) {
+      console.error("Error submitting token:", error.message);
+      // Handle network errors or other exceptions
+    } finally {
+      setSubmitting(false);
+    }
+  };
+  const handleInputChange = (e) => {
+    const value = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+    setContractAddress(value);
+  };
+
+  const handleCheck = () => {
+    setStoredAddress(contractAddress);
+    console.log("Stored Address:", contractAddress);
+    setCurrent(current + 1);
+  };
+
+  const FirstStep = () => {
+    return (
+      <div className={formstyle.maindivcontent1}>
+        <div className={formstyle.titledivfor1}>
+          <h3>Enter Your Contract Address to Discover Hidden Tokens!</h3>
+        </div>
+        <div className={formstyle.divbtninput}>
+          <div className={formstyle.inputbuttondiv}>
+            <Tooltip title="Enter Contract Address">
+              <input
+                placeholder="0x178fDD70ba80D9CbDe941890519D3227c0051fdd"
+                value={contractAddress}
+                onChange={handleInputChange}
+              />
+            </Tooltip>
+          </div>
+          <div>
+            <Tooltip title="Click here to check Locked tokens">
+              <button
+                className={formstyle.buttonin1step}
+                onClick={contractAddress ? handleCheck : null}
+                disabled={!contractAddress}
+              >
+                Check
+              </button>
+            </Tooltip>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const TOKENS = [
+    {
+      tokenName: "UNI",
+      tokenAddress: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    },
+    {
+      tokenName: "WETH",
+      tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    },
+    {
+      tokenName: "USDC",
+      tokenAddress: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    },
+    {
+      tokenName: "DAI",
+      tokenAddress: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    },
+  ];
+
+  const SecondStep = ({ storedAddress, onTokenSelect }) => {
+    return (
+      <div className={formstyle.maindivcontent2}>
+        <div className={formstyle.titlediv2}>
+          <h1>Discover Your Holdings</h1>
+        </div>
+        <div className={formstyle.tablediv}>
+          <table>
+            <thead>
+              <tr>
+                <th>Token Name</th>
+                <th>Token Address</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {TOKENS.map((token, index) => (
+                <TokenRow
+                  key={index}
+                  token={token}
+                  storedAddress={storedAddress}
+                  onSelect={onTokenSelect}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  };
+
+  const handleTokenSelect = (tokenData) => {
+    const Proposalobject = {
+      tokenName: tokenData.tokenName,
+      tokenAddress: tokenData.tokenAddress,
+      contractAddress: storedAddress,
+    };
+    setSelectedToken(Proposalobject);
+    console.log("Selected Token:", Proposalobject);
+    setCurrent(current + 1);
+  };
+
+  const TokenRow = ({ token, storedAddress, onSelect }) => {
+    const [balance, setBalance] = useState("Loading...");
+
+    useEffect(() => {
+      if (storedAddress) {
+        getTokenBalance(token.tokenAddress, storedAddress).then(setBalance);
+      }
+    }, [storedAddress, token.tokenAddress]);
+
+    const handleRowClick = async () => {
+      const tokenData = {
+        tokenName: token.tokenName,
+        tokenAddress: token.tokenAddress,
+        balance: balance,
+      };
+      onSelect(tokenData);
+      const Transactionobj = {
+        token: token.tokenName,
+        to: storedAddress,
+      };
+      await postTransaction(Transactionobj); // Call the new function here
+    };
+
+    return (
+      <tr className={formstyle.trtagbody} onClick={handleRowClick}>
+        <Skeleton
+          loading={balance === "Loading..."}
+          active
+          paragraph={{ rows: 1, width: "100%" }}
+        >
+          <td>{token.tokenName}</td>
+          <td>{token.tokenAddress}</td>
+          <td>{balance}</td>
+        </Skeleton>
+      </tr>
+    );
+  };
+
+  const ThirdStep = () => {
+    return (
+      <div>
+        <div className={formstyle.maindivof4}>
+          <div className={formstyle.headingdiv}>
+            <div className={formstyle.headingdiv1}>
+              <span>Review & Submit.</span>
+            </div>
+            <div className={formstyle.headingdiv11}>
+              Verify the details thoroughly and submit to DAO for review.
+            </div>
+          </div>
+          <div className={formstyle.tkdetailsdiv}>
+            <div className={propstyle.divdetail}>
+              <div className={propstyle.titledetail}>Contract Address</div>
+              <div className={propstyle.titlecontent}>{storedAddress}</div>
+            </div>
+
+            <div className="flex">
+              <div className={propstyle.divdetail}>
+                <div className={propstyle.titledetail}>Token Name</div>
+                <div className={propstyle.titlecontent}>
+                  {selectedToken.tokenName}
+                </div>
+              </div>
+              <div className={propstyle.divdetail}>
+                <div className={propstyle.titledetail}>Token Amount</div>
+                <div className={propstyle.titlecontent}>{Totalamount}</div>
+              </div>
+              <div className={propstyle.divdetail}>
+                <div className={propstyle.titledetail}>
+                  <Tooltip title="Click here to view addresses with locked tokens and their amounts.">
+                    <button text-blue-900 onClick={handleOpenModal}>
+                      {/* <strong> */}
+                      Token Holders ↗{/* </strong> */}
+                    </button>
+                  </Tooltip>
+                </div>
+                <div className={propstyle.titlecontent}>200</div>
+              </div>
+            </div>
+            <div className={propstyle.divdetail}>
+              <div className={propstyle.titledetail}>Token Address</div>
+              <div className={propstyle.titlecontent}>
+                {selectedToken.tokenAddress}
+              </div>
+            </div>
+          </div>
+
+          <div className={formstyle.buttondiv}>
+            <button
+              className={formstyle.buttonin1step}
+              onClick={handleSubmit}
+              loading={submitting}
+              disabled={!selectedToken || submitting}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const steps = [
+    {
+      title: <div className={formstyle.steptitles}>Verify Address</div>,
+      content: <FirstStep />,
+      icon: <UserOutlined className={formstyle.customIcon} />,
+    },
+    {
+      title: <div className={formstyle.steptitles}>Check Lock Token</div>,
+      content: (
+        <SecondStep
+          storedAddress={storedAddress}
+          onTokenSelect={handleTokenSelect}
+        />
+      ),
+      icon: <UnorderedListOutlined className={formstyle.customIcon} />,
+    },
+    {
+      title: <div className={formstyle.steptitles}>Submit for review</div>,
+      content: <ThirdStep />,
+      icon: <CheckCircleOutlined className={formstyle.customIcon} />,
+    },
+  ];
+
   const next = () => {
     setCurrent(current + 1);
   };
+
   const prev = () => {
     setCurrent(current - 1);
   };
+
   const items = steps.map((item, index) => ({
     key: item.title,
-    title: (<span className={formstyle.titleinsteps}>
-      {item.title}
-    </span>),
+    title: <span className={formstyle.titleinsteps}>{item.title}</span>,
     icon: (
       <span className={index === current ? formstyle.currentIcon : ""}>
         {item.icon}
@@ -173,11 +378,11 @@ const Stepform = () => {
     borderRadius: "46px",
     border: "none",
     marginTop: 36,
-    boxShadow:"rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px",
+    boxShadow:
+      "rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px",
   };
 
   return (
-    // <div className="p-20 sm:p-5">
     <div className={formstyle.mainndiv}>
       <Steps current={current} items={items} />
       <div className=" text-black" style={contentStyle}>
@@ -188,31 +393,24 @@ const Stepform = () => {
           marginTop: 24,
         }}
       >
-        {current < steps.length - 1 && (
-          <Button type="primary" onClick={() => next()}>
-            Next
-          </Button>
-        )}
-        {current === steps.length - 1 && (
-          <Button
-            type="primary"
-            onClick={() => message.success("Processing complete!")}
-          >
-            Done
-          </Button>
-        )}
         {current > 0 && (
-          <Button
-            style={{
-              margin: "0 8px",
-            }}
-            onClick={() => prev()}
-          >
-            Previous
-          </Button>
+          <button className={formstyle.buttonin11step} onClick={() => prev()}>
+            ← Previous
+          </button>
         )}
       </div>
+      <Modal
+        title="Explore Holders List"
+        visible={modalVisible}
+        onCancel={handleCloseModal}
+        footer={null}
+        className="modal"
+        bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }}
+      >
+        <TransactionsModalContent />
+      </Modal>
     </div>
   );
 };
-export default Stepform;
+
+export default StepForm;
