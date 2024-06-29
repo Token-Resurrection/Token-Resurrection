@@ -96,6 +96,7 @@ const StepForm = () => {
             setUSDC(true);
             setTotalamount((+formatUnits(data.totalAmount, 6)).toFixed(4));
           } else {
+            setUSDC(false);
             setTotalamount((+formatUnits(data.totalAmount, 18)).toFixed(4));
           }
         }
