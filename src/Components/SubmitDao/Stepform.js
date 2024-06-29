@@ -14,6 +14,8 @@ import propstyle from "../DAO/proposals.module.css";
 import { SmileOutlined } from "@ant-design/icons";
 import SuccessResult from "./SuccessResult";
 import FailureResult from "./FailureResult";
+import { formatUnits } from "viem";
+// import axios from "axios";
 
 const StepForm = () => {
   const { token } = theme.useToken();
@@ -25,18 +27,18 @@ const StepForm = () => {
   const [Totalamount, setTotalamount] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [transactions, setTransactions] = useState([]);
-const [getHolderscount, setHolderscount] = useState("");
-const [submissionStatus, setSubmissionStatus] = useState(null);
-const [errorMessage, setErrorMessage] = useState("");
+  const [getHolderscount, setHolderscount] = useState("");
+  const [submissionStatus, setSubmissionStatus] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
   const handleOpenModal = () => {
     setModalVisible(true);
   };
-
+  const ETHERSCAN_API_KEY = "JGWS1C3GSNW3GQYVU5AHMB5Y2I9KUI6YHW";
   // Function to handle closing the modal
   const handleCloseModal = () => {
     setModalVisible(false);
   };
- 
+
   const postTransaction = async (Transactionobj) => {
     try {
       const response = await fetch("http://localhost:3001/api/transactions", {
@@ -51,7 +53,7 @@ const [errorMessage, setErrorMessage] = useState("");
       setTransactions(data.transactions);
       console.log(data.transactions);
       const gettnx = data.transactions;
-      setHolderscount(gettnx.length)
+      setHolderscount(gettnx.length);
       if (response.ok) {
         console.log("Transaction posted successfully!");
         if (data.totalAmount) {
@@ -92,7 +94,10 @@ const [errorMessage, setErrorMessage] = useState("");
               </div>
 
               {/* <div className="text-gray-600">{transaction.amount}</div> */}
-              <div className="text-gray-600">{transaction.amount}</div>
+              <div className="text-gray-600">
+                {" "}
+                {(+formatUnits(transaction.amount, 18)).toFixed(4)}
+              </div>
             </div>
           ))}
         </div>
@@ -105,7 +110,6 @@ const [errorMessage, setErrorMessage] = useState("");
       return;
     }
 
-    
     try {
       console.log("trying to post");
       setSubmitting(true);
@@ -119,20 +123,18 @@ const [errorMessage, setErrorMessage] = useState("");
       if (response.ok) {
         console.log("Token submission successful!");
         setSubmissionStatus("success");
-        message.info("Proposal  submission successful")
-
+        message.info("Proposal  submission successful");
       } else {
         console.error("Token submission failed:", response.statusText);
         setSubmissionStatus("error");
         setErrorMessage(response.statusText);
-        message.info("Proposal  submission failed")
+        message.info("Proposal  submission failed");
       }
     } catch (error) {
       console.error("Error submitting token:", error.message);
       setSubmissionStatus("error");
       setErrorMessage(error.message);
-      message.info("Error submitting proposal")
-
+      message.info("Error submitting proposal");
     } finally {
       setSubmitting(false);
     }
@@ -155,11 +157,65 @@ const [errorMessage, setErrorMessage] = useState("");
     setContractAddress(value);
   };
 
-  const handleCheck = () => {
+  const handleCheck = async () => {
     setStoredAddress(contractAddress);
     console.log("Stored Address:", contractAddress);
-    setCurrent(current + 1);
-    message.info("Fetching Token Details")
+
+    try {
+      const abi = await getContractABI(contractAddress);
+      console.log(abi);
+      if (abi === "unverified") {
+        message.info("Contract not verified");
+        return;
+      }
+
+      // const contract = new ethers.Contract(contractAddress, abi, provider);
+      const isUpgradable = isUpgradableContract(abi);
+
+      setCurrent(current + 1);
+
+      message.info("Fetching Token Details");
+    } catch (error) {
+      console.error("Error analyzing contract:", error);
+      message.info("Contract not verified");
+    }
+  };
+
+  const getContractABI = async (address) => {
+    try {
+      const response = await fetch(
+        `https://api.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${ETHERSCAN_API_KEY}`
+      );
+      const data = await response.json();
+      console.log(data);
+
+      if (data.status === "1") {
+        return JSON.parse(data.result);
+      } else if (data.result === "Contract source code not verified") {
+        return "unverified";
+      } else {
+        throw new Error("Failed to fetch ABI");
+      }
+    } catch (error) {
+      console.error("Error fetching ABI:", error);
+      return null;
+    }
+  };
+
+  const isUpgradableContract = (abi) => {
+    const upgradableFunctions = [
+      "upgradeTo",
+      "upgradeToAndCall",
+      "setImplementation",
+      "_setPendingImplementation",
+      "_acceptImplementation",
+      "_setPendingAdmin",
+      "_acceptAdmin",
+    ];
+    return abi.some(
+      (item) =>
+        item.type === "function" && upgradableFunctions.includes(item.name)
+    );
   };
 
   const FirstStep = () => {
@@ -252,7 +308,7 @@ const [errorMessage, setErrorMessage] = useState("");
     };
     setSelectedToken(Proposalobject);
     console.log("Selected Token:", Proposalobject);
-    message.info("Generating your Proposal!")
+    message.info("Generating your Proposal!");
     setCurrent(current + 1);
   };
 
@@ -321,7 +377,9 @@ const [errorMessage, setErrorMessage] = useState("");
               </div>
               <div className={propstyle.divdetail}>
                 <div className={propstyle.titledetail}>Token Amount</div>
-                <div className={propstyle.titlecontent}>{Totalamount}</div>
+                <div className={propstyle.titlecontent}>
+                  {(+formatUnits(Totalamount, 18)).toFixed(4)}
+                </div>
               </div>
               <div className={propstyle.divdetail}>
                 <div className={propstyle.titledetail}>
