@@ -70,8 +70,8 @@
   transform: translate(3px, 3px);
 }
 .buttonin1step:hover {
-  font-weight: 900;
-  /* background: #783cef; */
+  /* font-weight: 900; */
+  background: #5026a4;
 }
 .buttonin1step {
   font-family: monospace;
@@ -259,9 +259,9 @@
 }
 
 .btncheck:hover {
-  background-color: #ff8a00;
-  color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  /* background-color: #ff8a00; */
+  /* color: white; */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); */
   font-weight: 900;
 }
 /* stepfrom.module.css */
@@ -303,9 +303,7 @@
 }
 .btnchecklist:hover {
   background-color: #ff8a00;
-  color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  font-weight: 900;
+  box-shadow: 4px 6px #ffb320;
 }
 .buttonin1steplist:active {
   box-shadow: none;

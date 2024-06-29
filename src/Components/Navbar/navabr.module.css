@@ -51,3 +51,16 @@
   overflow: hidden;
   white-space: nowrap;
 }
+
+.disconnectButton {
+  position: absolute;
+  top: 100%; /* Position below the address button */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: red; /* Customize as needed */
+  color: white; /* Customize as needed */
+  border: none; /* Customize as needed */
+  padding: 5px 10px; /* Customize as needed */
+  cursor: pointer;
+  z-index: 10; /* Ensure it appears above other elements */
+}

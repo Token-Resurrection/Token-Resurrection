@@ -144,8 +144,8 @@
     transform: translate(3px, 3px);
   }
   .buttonin2step:hover {
-      font-weight: 900;
-    /* background: #783cef; */
+    background: #0f945d;
+
   
   }
   .buttonin2step {
@@ -181,4 +181,10 @@
     box-shadow: 4px 6px #FF4646;
     cursor: pointer;
     margin: 35px 10px;
+  }
+
+  .headinginpopup{
+    font-size: 40px;
+    color: #9662fe;
+    text-align: center;
   }

@@ -4,7 +4,6 @@ import React from "react";
 import "@coinbase/onchainkit/styles.css";
 import style from "./navabr.module.css"; // Import your custom styles
 import AccountConnect from "./ConnectAccount";
-// import ConnectAccountWrapper from "./Connectwrapperaccount";
 
 function Navbar() {
   return (
@@ -15,7 +14,6 @@ function Navbar() {
           <div className={style.walletbtn}>
             {/* <ConnectAccount /> */}
             <AccountConnect/>
-            {/* <ConnectAccountWrapper/> */}
           </div>
         </div>
       </div>

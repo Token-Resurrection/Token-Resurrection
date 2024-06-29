@@ -29,6 +29,10 @@
   transform: translate(3px, 3px);
 }
 
+.tabButton1:hover{
+  background: #0f945d;
+
+}
 .tabButton1{
   color: #fafafa;
   text-transform: uppercase;
@@ -47,6 +51,10 @@
   transform: translate(3px, 3px);
 }
 
+.tabButton2:hover{
+  background: #072593;
+
+}
 .tabButton2{
   font-size: 1.5rem;
   color: #fafafa;
@@ -66,6 +74,10 @@
   transform: translate(3px, 3px);
 }
 
+.tabButton3:hover{
+  background: #b96403;
+
+}
 .tabButton3{
   font-size: 1.5rem;
   color: #fafafa;
