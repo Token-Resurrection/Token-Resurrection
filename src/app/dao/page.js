@@ -8,7 +8,6 @@ function page() {
   return (
     <div className="h-screen text-black">
       <Alltabs/>
-    
     </div>
   )
 }

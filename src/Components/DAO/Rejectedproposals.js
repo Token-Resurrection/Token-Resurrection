@@ -4,16 +4,17 @@ import propstyle from "./proposals.module.css";
 import Modal from "react-modal";
 import formstyle from "../SubmitDao/stepfrom.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
-import { Tooltip, message } from "antd";
+import { faCopy, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { Empty, Tooltip, message, Skeleton } from "antd";
 
-import { Skeleton } from 'antd'
 
 
 function Rejectedproposal({ data }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -40,15 +41,33 @@ function Rejectedproposal({ data }) {
     });
   };
   
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
+  const filteredData = data.filter(item => 
+    item.tokenAddress.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.tokenName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.contractAddress.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <div className={propstyle.outerdivprop1}>
       <div className={propstyle.maindivofproposal1}>
         <div className={propstyle.headingprop}>Rejected Proposal</div>
+        <div className={propstyle.searchbardiv}>
+          <input 
+            type="text" 
+            placeholder="search..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+          <div><FontAwesomeIcon icon={faMagnifyingGlass} /></div>
+        </div>
         <div className={propstyle.tablediv}>
         {loading ? (
           <Skeleton active  paragraph={{ rows: 10 }} block={true}/>
         ) : (
+          filteredData.length > 0 ? (
           <table>
             <thead className="text-center">
               <tr>
@@ -57,11 +76,11 @@ function Rejectedproposal({ data }) {
                 <th>Contract Address</th>
                 <th>Status</th>
                 <th>Explore</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody className="text-center">
-              {data.map((item, index) => (
+            {filteredData.map((item, index) => (
+              // {data.map((item, index) => (
                 <tr key={index}>
                  <td>{item.tokenAddress.substring(0, 6)}...{item.tokenAddress.substring(item.tokenAddress.length - 4)}  <Tooltip title="copy">  <button onClick={() => copyToClipboard(item.tokenAddress)}><FontAwesomeIcon icon={faCopy} /></button></Tooltip></td>
                   <td>{item.tokenName}</td>
@@ -75,13 +94,13 @@ function Rejectedproposal({ data }) {
                   <td>
                     <button className="hover:font-bold"  onClick={() => openModal(item)}>View ↗</button>
                   </td>
-                  <td>
-                    <button>Action</button>
-                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        ) : (
+          <Empty description="No Data Available" />
+        )
               )}
         </div>
       </div>

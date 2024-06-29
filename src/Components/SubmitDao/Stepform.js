@@ -401,7 +401,7 @@ const [errorMessage, setErrorMessage] = useState("");
   }));
 
   const contentStyle = {
-    minHeight: "360px",
+    minHeight: "400px",
     textAlign: "center",
     color: token.colorTextTertiary,
     backgroundColor: "white",

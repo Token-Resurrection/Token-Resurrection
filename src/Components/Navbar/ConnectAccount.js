@@ -28,6 +28,10 @@ function AccountConnect() {
   };
 
   return (
+    <div>
+   {/* <div>
+                  <img src='https://altcoinsbox.com/wp-content/uploads/2023/02/base-logo-in-blue.webp'/>
+                </div> */}
     <div className="flex flex-grow">
       {(() => {
         if (status === 'disconnected') {
@@ -37,12 +41,16 @@ function AccountConnect() {
           <div 
             className={`flex h-8 items-center justify-center ${style.dynamicWidth}`}
           >
+              
             {address && (
+              <div>
+                   
               <div className="relative">
+         
                 <Tooltip title="Click to Copy">
                   <button
                     type="button"
-                    style={{ minWidth: `${formatAddress(address).length * 10}px` }} // Adjust min-width based on address length
+                    style={{ minWidth: `${formatAddress(address).length * 10}px` }} 
                     onClick={handleCopyAddress}
                   >
                     {formatAddress(address)}
@@ -54,10 +62,12 @@ function AccountConnect() {
                   </button>
                 </Tooltip>
               </div>
+              </div>
             )}
           </div>
         );
       })()}
+    </div>
     </div>
   );
 }
