@@ -68,7 +68,7 @@ function AddressList({ onGoBack, tokens }) {
         </div>
       )}
 
-      <div className="pt-4 bg-gray-200 m-4 pb-2 font-semibold text-lg w-full text-center">
+      <div className="pt-4 totaltoken m-4 pb-2 font-semibold text-lg w-full text-center">
         Total tokens in list: <span className="text-green-600">{totalTokens}</span>
       </div>
       <button className={formstyle.buttonin1steplist2} onClick={onGoBack}>
