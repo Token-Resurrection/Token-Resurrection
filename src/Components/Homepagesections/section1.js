@@ -52,27 +52,30 @@ function Section1() {
       <div className="w-full p-12 mt-12 flex flex-col items-center">
         <h1 className="text-3xl font-bold mb-2 text-center">
           Join
-          <span className="text-violet-400 text-4xl"> Token Resurrection</span>{" "}
-          to Approve,
+          <span className="text-violet-400 text-4xl">
+            {" "}
+            Token Resurrection
+          </span>{" "}
+          to Attest,
         </h1>
         <h1 className="text-3xl font-bold text-center">
-          Claim, and Unlock the Value of Locked Tokens
+          Claim, and Recover Your Lost Tokens
         </h1>
         <div className="flex justify-center gap-4 flex-wrap">
-          <a href="/check"  target="_blank" rel="noopener noreferrer">
+          <a href="/check" target="_blank" rel="noopener noreferrer">
             <button className={`${formstyle.buttonin1stp} button`}>
               Claim Tokens
             </button>
           </a>
-          <a href="/submit"  target="_blank" rel="noopener noreferrer">
-          <button className={`${formstyle.buttonin1stp} button`}>
-            Submit Proposal
-          </button>
+          <a href="/submit" target="_blank" rel="noopener noreferrer">
+            <button className={`${formstyle.buttonin1stp} button`}>
+              Submit Proposal
+            </button>
           </a>
-          <a href="/dao"  target="_blank" rel="noopener noreferrer">
-          <button className={`${formstyle.buttonin1stp} button`}>
-            Explore Proposal
-          </button>
+          <a href="/dao" target="_blank" rel="noopener noreferrer">
+            <button className={`${formstyle.buttonin1stp} button`}>
+              Explore Proposal
+            </button>
           </a>
         </div>
       </div>

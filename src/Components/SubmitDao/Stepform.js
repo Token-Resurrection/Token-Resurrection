@@ -222,7 +222,7 @@ const StepForm = () => {
     return (
       <div className={formstyle.maindivcontent1}>
         <div className={formstyle.titledivfor1}>
-          <h3>Enter Your Contract Address to Discover Hidden Tokens!</h3>
+          <h3>Enter Contract Address to Discover Locked Tokens!</h3>
         </div>
         <div className={formstyle.divbtninput}>
           <div className={formstyle.inputbuttondiv}>
@@ -273,7 +273,7 @@ const StepForm = () => {
     return (
       <div className={formstyle.maindivcontent2}>
         <div className={formstyle.titlediv2}>
-          <h1>Discover Your Holdings</h1>
+          <h1>Discover Locked Tokens</h1>
         </div>
         <div className={formstyle.tablediv}>
           <table>
@@ -359,7 +359,8 @@ const StepForm = () => {
               <span>Review & Submit.</span>
             </div>
             <div className={formstyle.headingdiv11}>
-              Verify the details thoroughly and submit to DAO for review.
+              Verify the details thoroughly to Create EAS Schema and deploy
+              Resolver Address with the Merkel Root
             </div>
           </div>
           <div className={formstyle.tkdetailsdiv}>
