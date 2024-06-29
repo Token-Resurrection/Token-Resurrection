@@ -5,6 +5,7 @@ import formstyle from "../../Components/SubmitDao/stepfrom.module.css";
 import { useAccount, useConnect } from 'wagmi';
 import { message } from 'antd';
 
+
 function MainPage() {
   const [showWalletConnect, setShowWalletConnect] = useState(true);
   const { address, isConnected } = useAccount();

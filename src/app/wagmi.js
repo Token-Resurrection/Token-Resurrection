@@ -1,6 +1,6 @@
 import { http, createConfig } from "wagmi";
 import { base } from "wagmi/chains";
-import { coinbaseWallet } from "wagmi/connectors";
+import { coinbaseWallet, metaMask } from "wagmi/connectors";
 
 export const wagmiConfig = createConfig({
   chains: [base],
@@ -11,6 +11,7 @@ export const wagmiConfig = createConfig({
       preference: "all",
       version: "4",
     }),
+    // metaMask(),
   ],
   ssr: true,
   transports: {

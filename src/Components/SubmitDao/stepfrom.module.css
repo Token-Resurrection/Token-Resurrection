@@ -359,3 +359,23 @@ box-shadow 300ms ease-out;
 
 /* styles/home.css */
 /* Assuming you have a CSS file linked, e.g., styles.css */
+
+
+.buttonin1stp:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+.buttonin1stp:hover {
+  background: #5026a4;
+}
+.buttonin1stp {
+  font-size: 15px;
+  color: #fafafa;
+  /* text-transform: uppercase; */
+  padding: 3px 5px;
+  border: 1px solid #9662fe;
+  background: #9662fe;
+  box-shadow: 4px 6px #9662fe54;
+  cursor: pointer;
+  margin: 35px 10px;
+}

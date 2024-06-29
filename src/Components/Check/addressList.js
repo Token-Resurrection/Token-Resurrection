@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import formstyle from "../../Components/SubmitDao/stepfrom.module.css";
 import "../../app/globals.css";
+import { Tooltip } from 'antd';
 
 function AddressList({ onGoBack, tokens }) {
   const [popupMessage, setPopupMessage] = useState('');
@@ -48,13 +49,16 @@ function AddressList({ onGoBack, tokens }) {
                   >
                     Attest
                   </button>
+                  <Tooltip title="Waiting for Proposal Approval and Disbursement">
+
                   <button
                     className={`${formstyle.btnchecklist}`}
                     onClick={() => handleClaim(index)}
-                    disabled={token.claimed}
-                  >
+                    disabled={true}
+                    >
                     {token.claimed ? 'Claimed' : 'Claim Token'}
                   </button>
+                    </Tooltip>
                 </td>
               </tr>
             ))}

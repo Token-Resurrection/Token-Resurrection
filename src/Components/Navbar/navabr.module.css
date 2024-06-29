@@ -1,8 +1,15 @@
 .walletbtncontainer {
   position: relative;
   display: inline-block;
+  display: flex;
+    align-items: center;
 }
-
+.networkdiv img{
+  margin-right: 5px;
+}
+.networkdiv{
+  padding: 5px;
+}
 .walletbtn button{
   background-color: #FFD600;
   font-weight: 900 !important;
@@ -15,7 +22,7 @@
   color: #000;
   cursor: pointer;
   display: inline-block;
-  font-size: 15px;
+  font-size: 13px;
   position: relative;
   border-radius: 50%;
   z-index: 1;

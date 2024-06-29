@@ -188,3 +188,25 @@
     color: #9662fe;
     text-align: center;
   }
+
+  .searchbardiv{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #a597c030;
+  }
+  .searchbardiv input {
+    background-color: transparent;
+    width: 100%;
+    padding: 5px;
+    color: black;
+    margin-right: 5px;
+    outline: none; /* This removes the outline */
+  }
+  
+  .searchbardiv input:focus {
+    outline: none; /* This ensures the outline is removed when the input is focused */
+  }
+  

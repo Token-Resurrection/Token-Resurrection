@@ -8,9 +8,18 @@ const SuccessResult = ({ onReset }) => (
     title="Successfully Submitted"
     subTitle="Your Proposal has been successfully submitted."
     extra={
+      <div>
+
       <button className={formstyle.buttonin11step} type="primary" onClick={onReset}>
         Submit Another
       </button>
+      <a href="/dao"  target="_blank" rel="noopener noreferrer" >
+
+         <button className={formstyle.buttonin1step} type="primary">
+        View Proposal
+       </button>
+      </a>
+      </div>
     }
   />
 );

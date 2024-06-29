@@ -46,9 +46,9 @@ export default function Home() {
       <div className="w-full p-12  mt-12 flex flex-col items-center">
         <h1 className="text-3xl font-bold mb-2 text-center">Join<span className="text-violet-400 text-4xl"> Token Resurrection</span>  to Approve,</h1> <h1 className="text-3xl font-bold  text-center "> Claim, and Unlock the Value of Locked Tokens</h1>
         <div className="flex justify-center gap-4 flex-wrap">
-          <button className={`${formstyle.buttonin1step} button`}>Button 1</button>
-          <button className={`${formstyle.buttonin1step} button`}>Button 2</button>
-          <button className={`${formstyle.buttonin1step} button`}>Button 3</button>
+          <button className={`${formstyle.buttonin1stp} button`}>Claim Tokens</button>
+          <button className={`${formstyle.buttonin1stp} button`}>Submit Proposal</button>
+          <button className={`${formstyle.buttonin1stp} button`}>Explore Proposal</button>
         </div>
       </div>
 
