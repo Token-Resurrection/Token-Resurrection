@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import formstyle from "../../Components/SubmitDao/stepfrom.module.css";
 import "../../app/globals.css";
-import { Tooltip } from 'antd';
+import { Tooltip } from "antd";
 
 function AddressList({ onGoBack, tokens }) {
-  const [popupMessage, setPopupMessage] = useState('');
+  const [popupMessage, setPopupMessage] = useState("");
 
   const handleSubmit = (index) => {
     // Implement submission logic if needed
@@ -15,7 +15,7 @@ function AddressList({ onGoBack, tokens }) {
   };
 
   const closePopup = () => {
-    setPopupMessage('');
+    setPopupMessage("");
   };
 
   // Calculate total number of tokens in the list
@@ -24,7 +24,7 @@ function AddressList({ onGoBack, tokens }) {
   return (
     <div className="flex flex-col justify-center items-center h-full px-4 w-full">
       <div className="text-gray-900 text-2xl font-bold p-4 m-2 w-full text-center">
-        <h2>You are eligible to claim the following tokens</h2>
+        <h2>You are eligible for the following tokens</h2>
       </div>
       <div className="overflow-x-auto max-h-64 w-full">
         <table className="min-w-full table-auto border-collapse">
@@ -32,16 +32,24 @@ function AddressList({ onGoBack, tokens }) {
             <tr className="bg-gray-200">
               <th className="border px-2 py-2 md:px-4 md:py-2">Symbol</th>
               <th className="border px-2 py-2 md:px-4 md:py-2">Amount</th>
-              <th className="border px-2 py-2 md:px-4 md:py-2">Contract Address</th>
+              <th className="border px-2 py-2 md:px-4 md:py-2">
+                Contract Address
+              </th>
               <th className="border px-2 py-2 md:px-4 md:py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {tokens.map((token, index) => (
               <tr key={index} className="bg-white hover:bg-gray-100">
-                <td className="border px-2 py-2 md:px-4 md:py-2 font-semibold">{token.symbol}</td>
-                <td className="border px-2 py-2 md:px-4 md:py-2 font-semibold">{token.amount}</td>
-                <td className="border px-2 py-2 md:px-4 md:py-2 font-semibold break-words">{token.contractAddress}</td>
+                <td className="border px-2 py-2 md:px-4 md:py-2 font-semibold">
+                  {token.symbol}
+                </td>
+                <td className="border px-2 py-2 md:px-4 md:py-2 font-semibold">
+                  {token.amount}
+                </td>
+                <td className="border px-2 py-2 md:px-4 md:py-2 font-semibold break-words">
+                  {token.contractAddress}
+                </td>
                 <td className="border px-2 py-2 md:px-4 md:py-2">
                   <button
                     className={`${formstyle.buttonin1steplist} mb-2 md:mb-0 md:mr-2`}
@@ -50,15 +58,14 @@ function AddressList({ onGoBack, tokens }) {
                     Attest
                   </button>
                   <Tooltip title="Waiting for Proposal Approval and Disbursement">
-
-                  <button
-                    className={`${formstyle.btnchecklist}`}
-                    onClick={() => handleClaim(index)}
-                    disabled={true}
+                    <button
+                      className={`${formstyle.btnchecklist}`}
+                      onClick={() => handleClaim(index)}
+                      disabled={true}
                     >
-                    {token.claimed ? 'Claimed' : 'Claim Token'}
-                  </button>
-                    </Tooltip>
+                      {token.claimed ? "Claimed" : "Claim Token"}
+                    </button>
+                  </Tooltip>
                 </td>
               </tr>
             ))}
@@ -68,12 +75,15 @@ function AddressList({ onGoBack, tokens }) {
       {popupMessage && (
         <div className="popup-message">
           <span>{popupMessage}</span>
-          <button onClick={closePopup} className="close-popup">X</button>
+          <button onClick={closePopup} className="close-popup">
+            X
+          </button>
         </div>
       )}
 
       <div className="pt-4 totaltoken m-4 pb-2 font-semibold text-lg w-full text-center">
-        Total tokens in list: <span className="text-green-600">{totalTokens}</span>
+        Total tokens in list:{" "}
+        <span className="text-green-600">{totalTokens}</span>
       </div>
       <button className={formstyle.buttonin1steplist2} onClick={onGoBack}>
         Back to the previous page
