@@ -2,17 +2,17 @@
 
 ## Overview
 
-Token Resurrection addresses the issue of tokens being lost when mistakenly transferred to contract addresses. This solution aims to recover these tokens through a structured process involving verification, attestation, and recovery proposal submission.
+Token Resurrection addresses the issue of tokens being lost when mistakenly transferred to contract addresses. This solution aims to recover these tokens through a structured process involving verification, attestation, and recovery proposal submission. 🔄
 
 ## Problem Statement
 
-Tokens transferred to contract addresses are often irretrievable, leading to permanent loss for users. Token Resurrection provides a mechanism to recover such tokens, benefiting users, issuers, and the platform facilitating the recovery process.
+Tokens transferred to contract addresses are often irretrievable, leading to permanent loss for users. Token Resurrection provides a mechanism to recover such tokens, benefiting users, issuers, and the platform facilitating the recovery process. 🛠️
 
 ## Solution Details
 
 ### Verification and Proof Generation
 
-Token Resurrection verifies locked tokens and generates proof of ownership. A Merkle root is created for beneficiaries to attest their ownership using the Ethereum Attestation Service (EAS).
+Token Resurrection verifies locked tokens and generates proof of ownership. A Merkle root is created for beneficiaries to attest their ownership using the Ethereum Attestation Service (EAS). 🌱
 
 ### Recovery Process
 
@@ -20,14 +20,14 @@ Token Resurrection verifies locked tokens and generates proof of ownership. A Me
 2. **Approval**: Proposals are submitted to issuers or contract owners for approval.
 
 3. **Disbursement**: Upon approval, tokens are distributed:
-   - Users receive 70% of locked tokens.
-   - Issuers receive 20%.
-   - Token Resurrection retains 10% for facilitation.
+   - Users receive 70% of locked tokens. 💼
+   - Issuers receive 20%. 📈
+   - Token Resurrection retains 10% for facilitation. 🔄
 
 ### Benefits
 
-- **Auditing and Transparency**: Introduces concepts like Gross and Net Circulating Supply, enhancing transparency for token issuers.
-- **Community Engagement**: Increases trust and loyalty within decentralized autonomous organizations (DAOs) by facilitating token recovery for their communities.
+- **Auditing and Transparency**: Introduces concepts like Gross and Net Circulating Supply, enhancing transparency for token issuers. 📊
+- **Community Engagement**: Increases trust and loyalty within decentralized autonomous organizations (DAOs) by facilitating token recovery for their communities. 🌐
 
 ## Challenges Faced
 
@@ -47,4 +47,4 @@ Integration of Merkle root creation with EAS in the resolver contract encountere
 
 [Token Resurrection Contract Address](https://sepolia.basescan.org/address/0x352349c1aF3f45faed79AEF9dA762BAEE02363cc#code)
 
-Despite challenges, our solution's feasibility and benefits were validated through comprehensive data analysis and implementation efforts.
+Despite challenges, our solution's feasibility and benefits were validated through comprehensive data analysis and implementation efforts. 🚀
