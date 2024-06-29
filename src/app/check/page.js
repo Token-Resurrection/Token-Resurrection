@@ -1,25 +1,61 @@
 "use client";
-
-import { useState } from 'react';
+import React, { useState } from 'react';
 import AddressList from '../../Components/Check/checkAddress'; // Ensure the correct path to your component
 import formstyle from "../../Components/SubmitDao/stepfrom.module.css";
+import { useAccount, useConnect } from 'wagmi';
+import { message } from 'antd';
 
 function MainPage() {
   const [showWalletConnect, setShowWalletConnect] = useState(true);
+  const { address, isConnected } = useAccount();
+  const { connect } = useConnect();
+  const [tokens, setTokens] = useState([]);
+  const [showAddressList, setShowAddressList] = useState(false);
+  const [isValid, setIsValid] = useState(null);
 
-  const handleConnectWallet = () => {
-    // Implement Metamask or wallet connection logic here
-    console.log('Connecting wallet...');
+  const handleConnectWallet = async () => {
+    try {
+      await connect();
+    } catch (error) {
+      console.error('Error connecting wallet:', error);
+    }
+  };
+  const fetchDataFromApi = async (address) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/user?address=${address}`);
+      const data = await response.json();
+      if (data.tokens && data.tokens.length > 0) {
+        setTokens(data.tokens);
+        setShowAddressList(true);
+      } else if (data.message === 'User not found') {
+        message.info('User not found for the specified address');
+        setIsValid(false);
+      } else {
+        message.info('User not found for the specified address');
+        setIsValid(false);
+      }
+      console.log(data); // Log the fetched data to the console
+    } catch (error) {
+      console.error('Error fetching data from API:', error);
+      message.error('Failed to fetch data from API');
+      setIsValid(false);
+    }
   };
 
   const handleCheckAddress = () => {
-    // Switch to another component or state to show different content
+    fetchDataFromApi(address);
     setShowWalletConnect(false);
   };
 
   const handleGoBack = () => {
-    // Switch back to the main component
+    setShowAddressList(false);
+    setIsValid(null);
+    setTokens([]);
     setShowWalletConnect(true);
+  };
+
+  const handleAddressBtnClick = () => {
+    fetchDataFromApi(address);
   };
 
   return (
@@ -30,12 +66,21 @@ function MainPage() {
         </div>
         {showWalletConnect ? (
           <div className="flex flex-col md:flex-row justify-center items-center w-full">
-            <button
-              className={`${formstyle.buttonin1step} m-2 w-full md:w-auto`}
-              onClick={handleConnectWallet}
-            >
-              Connect Wallet
-            </button>
+            {isConnected ? (
+              <button
+                onClick={handleAddressBtnClick}
+                className={`${formstyle.buttonin1step} m-2 w-full md:w-auto`}
+              >
+                {address.substring(0, 5)}...{address.substring(address.length - 5)}
+              </button>
+            ) : (
+              <button
+                className={`${formstyle.buttonin1step} m-2 w-full md:w-auto`}
+                onClick={handleConnectWallet}
+              >
+                Connect Wallet
+              </button>
+            )}
             <span className="mx-2 font-semibold text-2xl text-gray-900">or</span>
             <button
               className={`${formstyle.btncheck} m-2 w-full md:w-auto`}
@@ -45,7 +90,7 @@ function MainPage() {
             </button>
           </div>
         ) : (
-          <AddressList onGoBack={handleGoBack} />
+          <AddressList onGoBack={handleGoBack} tokens={tokens} />
         )}
       </div>
     </div>

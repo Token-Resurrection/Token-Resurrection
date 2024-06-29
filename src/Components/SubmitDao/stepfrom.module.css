@@ -304,7 +304,9 @@
 .btnchecklist:hover {
   background-color: #ff8a00;
   box-shadow: 4px 6px #ffb320;
+  color: white;
 }
+
 .buttonin1steplist:active {
   box-shadow: none;
   transform: translate(3px, 3px);

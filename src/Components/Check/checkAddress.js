@@ -6,37 +6,45 @@ function AnotherComponent({ onGoBack }) {
   const [walletAddress, setWalletAddress] = useState('');
   const [isValid, setIsValid] = useState(null);
   const [showAddressList, setShowAddressList] = useState(false);
-  const registeredAddresses = [
-    "01",
-    "0x0135845b20e0d9ECf",
-    "0x9abc...",
-    // Add more addresses as needed
-  ];
+  const [tokens, setTokens] = useState([]);
 
   const handleInputChange = (e) => {
     setWalletAddress(e.target.value);
     setIsValid(null);  // Reset validity state on input change
   };
 
-  const checkAddress = () => {
-    // Validate the wallet address against the registered addresses
-    if (registeredAddresses.includes(walletAddress)) {
-      setIsValid(true);
-      setShowAddressList(true);
-    } else {
+  const fetchDataFromApi = async (address) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/user?address=${address}`);
+      const data = await response.json();
+      if (data.tokens && data.tokens.length > 0) {
+        setTokens(data.tokens);  // Set the token data
+        setShowAddressList(true);
+      } else {
+        setIsValid(false);
+      }
+      console.log(data.tokens);  // Log the fetched data to the console
+    } catch (error) {
+      console.error('Error fetching data from API:', error);
       setIsValid(false);
     }
+  };
+
+  const checkAddress = () => {
+    // Fetch data from the API
+    fetchDataFromApi(walletAddress);
   };
 
   const handleGoBack = () => {
     setShowAddressList(false);
     setIsValid(null);
     setWalletAddress('');
+    setTokens([]);  // Reset the fetched data
   };
 
   return (
     showAddressList ? (
-      <AddressList onGoBack={handleGoBack} />
+      <AddressList onGoBack={handleGoBack} tokens={tokens} />
     ) : (
       <div className="text-center flex flex-col justify-center h-full">
         <div className="text-gray-900 text-2xl font-bold p-4 m-4">

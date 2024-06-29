@@ -2,34 +2,15 @@ import React, { useState } from 'react';
 import formstyle from "../../Components/SubmitDao/stepfrom.module.css";
 import "../../app/globals.css";
 
-function AddressList({ onGoBack }) {
-  const initialTokens = [
-    { name: 'USDC', lockedIn: true, address: '0x1234...', submitted: false, claimed: false },
-    { name: 'USDT', lockedIn: true, address: '0sdjcnmmmksdkfkslnsanasns', submitted: false, claimed: false },
-    { name: 'Chainlink Token', lockedIn: true, address: '0x9abc...', submitted: false, claimed: false },
-    // Add more tokens as needed
-  ];
-
-  const [tokens, setTokens] = useState(initialTokens);
+function AddressList({ onGoBack, tokens }) {
   const [popupMessage, setPopupMessage] = useState('');
 
   const handleSubmit = (index) => {
-    const updatedTokens = [...tokens];
-    updatedTokens[index].submitted = true;
-    setTokens(updatedTokens);
+    // Implement submission logic if needed
   };
 
   const handleClaim = (index) => {
-    const token = tokens[index];
-    if (!token.submitted) {
-      setPopupMessage('Please submit before claiming');
-    } else if (token.claimed) {
-      setPopupMessage('Token already claimed');
-    } else {
-      const updatedTokens = [...tokens];
-      updatedTokens[index].claimed = true;
-      setTokens(updatedTokens);
-    }
+    // Implement claim logic if needed
   };
 
   const closePopup = () => {
@@ -37,7 +18,7 @@ function AddressList({ onGoBack }) {
   };
 
   // Calculate total number of tokens in the list
-  const totalTokens = initialTokens.length;
+  const totalTokens = tokens.length;
 
   return (
     <div className="flex flex-col justify-center items-center h-full px-4 w-full">
@@ -48,8 +29,8 @@ function AddressList({ onGoBack }) {
         <table className="min-w-full table-auto border-collapse">
           <thead>
             <tr className="bg-gray-200">
-              <th className="border px-2 py-2 md:px-4 md:py-2">Token</th>
-              <th className="border px-2 py-2 md:px-4 md:py-2">Status</th>
+              <th className="border px-2 py-2 md:px-4 md:py-2">Symbol</th>
+              <th className="border px-2 py-2 md:px-4 md:py-2">Amount</th>
               <th className="border px-2 py-2 md:px-4 md:py-2">Contract Address</th>
               <th className="border px-2 py-2 md:px-4 md:py-2">Actions</th>
             </tr>
@@ -57,29 +38,18 @@ function AddressList({ onGoBack }) {
           <tbody>
             {tokens.map((token, index) => (
               <tr key={index} className="bg-white hover:bg-gray-100">
-                <td className="border px-2 py-2 md:px-4 md:py-2 font-semibold">{token.name}</td>
-                <td className="border px-2 py-2 md:px-4 md:py-2 font-semibold">
-                  {token.lockedIn ? (
-                    <span className="flex items-center justify-center">
-                      <img src="https://cdn-user-icons.flaticon.com/153977/153977980/1719383805668.svg?token=exp=1719384706~hmac=4a4f8c58db4e835ef816b6fca0df62ab" alt="Locked Icon" className="w-6 h-6 mr-2 p-1" />
-                      <span>
-                        <i className="fas fa-lock"></i> Locked In
-                      </span>
-                    </span>
-                  ) : (
-                    'Unlocked'
-                  )}
-                </td>
-                <td className="border px-2 py-2 md:px-4 md:py-2 font-semibold break-words">{token.address}</td>
+                <td className="border px-2 py-2 md:px-4 md:py-2 font-semibold">{token.symbol}</td>
+                <td className="border px-2 py-2 md:px-4 md:py-2 font-semibold">{token.amount}</td>
+                <td className="border px-2 py-2 md:px-4 md:py-2 font-semibold break-words">{token.contractAddress}</td>
                 <td className="border px-2 py-2 md:px-4 md:py-2">
                   <button
                     className={`${formstyle.buttonin1steplist} mb-2 md:mb-0 md:mr-2`}
                     onClick={() => handleSubmit(index)}
                   >
-                    Submit
+                    Attest
                   </button>
                   <button
-                    className={`${formstyle.btnchecklist} ${token.claimed ? 'dull-button' : ''}`}
+                    className={`${formstyle.btnchecklist}`}
                     onClick={() => handleClaim(index)}
                     disabled={token.claimed}
                   >
