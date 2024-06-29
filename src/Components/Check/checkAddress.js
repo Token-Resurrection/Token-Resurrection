@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AddressList from "../../Components/Check/addressList";
 import formstyle from "../../Components/SubmitDao/stepfrom.module.css";
+import { Button, Modal, message, Skeleton, Steps, theme, Tooltip } from "antd";
 
 function AnotherComponent({ onGoBack }) {
   const [walletAddress, setWalletAddress] = useState("");
@@ -18,15 +19,19 @@ function AnotherComponent({ onGoBack }) {
       const response = await fetch(
         `http://localhost:3001/api/user?address=${address}`
       );
-      const data = await response.json();
-      if (data.tokens && data.tokens.length > 0) {
-        setTokens(data.tokens); // Set the token data
-        setShowAddressList(true);
-        console.log("first");
+      console.log(response);
+      if (response.status === 404) {
+        message.info("No Attestation or Claims Available at the moment");
       } else {
-        setIsValid(false);
-      }
-      console.log(data.tokens); // Log the fetched data to the console
+        const data = await response.json();
+        if (data.tokens && data.tokens.length > 0) {
+          setTokens(data.tokens); // Set the token data
+          setShowAddressList(true);
+        } else {
+          setIsValid(false);
+        }
+        console.log(data.tokens);
+      } // Log the fetched data to the console
     } catch (error) {
       console.error("Error fetching data from API:", error);
       setIsValid(false);

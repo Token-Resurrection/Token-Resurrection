@@ -8,13 +8,25 @@ import {
   UnorderedListOutlined,
 } from "@ant-design/icons";
 import formstyle from "./stepfrom.module.css";
-import { useReadContract } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import { getTokenBalance } from "@/Helpers/UseTokenBalance";
 import propstyle from "../DAO/proposals.module.css";
 import { SmileOutlined } from "@ant-design/icons";
 import SuccessResult from "./SuccessResult";
 import FailureResult from "./FailureResult";
-import { formatUnits } from "viem";
+import {
+  createPublicClient,
+  createWalletClient,
+  custom,
+  formatUnits,
+  http,
+} from "viem";
+import { MerkleTree } from "merkletreejs";
+import { keccak256 } from "viem";
+import AttestationDeployerABI from "../../ABI/TokenResurrectionFactoryABI.json";
+import { BrowserProvider, ethers, isAddress } from "ethers";
+import { SchemaRegistry } from "@ethereum-attestation-service/eas-sdk";
+
 // import axios from "axios";
 
 const StepForm = () => {
@@ -30,6 +42,8 @@ const StepForm = () => {
   const [getHolderscount, setHolderscount] = useState("");
   const [submissionStatus, setSubmissionStatus] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isUSDC, setUSDC] = useState(false);
+  const { address } = useAccount();
   const handleOpenModal = () => {
     setModalVisible(true);
   };
@@ -38,6 +52,26 @@ const StepForm = () => {
   const handleCloseModal = () => {
     setModalVisible(false);
   };
+
+  const publicClient = createPublicClient({
+    chain: {
+      id: 84532, // BTTC Donau testnet chain ID
+      rpcUrls: {
+        public: "https://base-sepolia.blockpi.network/v1/rpc/public", // BTTC Donau testnet RPC URL
+      },
+    },
+    transport: http("https://base-sepolia.blockpi.network/v1/rpc/public"), // Passing RPC URL to http function
+  });
+  const walletClient = createWalletClient({
+    chain: {
+      id: 84532, // BTTC Donau testnet chain ID
+      rpcUrls: {
+        public: "https://base-sepolia.blockpi.network/v1/rpc/public",
+        websocket: "https://base-sepolia.blockpi.network/v1/rpc/public", // WebSocket URL (optional)
+      },
+    },
+    transport: custom(window ? window.ethereum : ""),
+  });
 
   const postTransaction = async (Transactionobj) => {
     try {
@@ -57,7 +91,13 @@ const StepForm = () => {
       if (response.ok) {
         console.log("Transaction posted successfully!");
         if (data.totalAmount) {
-          // setTotalamount(data.totalAmount)
+          console.log(Transactionobj.token);
+          if (Transactionobj.token == "USDC") {
+            setUSDC(true);
+            setTotalamount((+formatUnits(data.totalAmount, 6)).toFixed(4));
+          } else {
+            setTotalamount((+formatUnits(data.totalAmount, 18)).toFixed(4));
+          }
         }
       } else {
         console.error("Transaction post failed:", data);
@@ -96,7 +136,9 @@ const StepForm = () => {
               {/* <div className="text-gray-600">{transaction.amount}</div> */}
               <div className="text-gray-600">
                 {" "}
-                {(+formatUnits(transaction.amount, 18)).toFixed(4)}
+                {isUSDC
+                  ? (+formatUnits(transaction.amount, 6)).toFixed(4)
+                  : (+formatUnits(transaction.amount, 18)).toFixed(4)}
               </div>
             </div>
           ))}
@@ -104,6 +146,22 @@ const StepForm = () => {
       </div>
     );
   };
+  let provider;
+  const setProvider = async () => {
+    if (window.ethereum == null) {
+      console.log("MetaMask not installed; using read-only defaults");
+      provider = ethers.getDefaultProvider();
+      console.log("going");
+    } else {
+      provider = new BrowserProvider(window.ethereum);
+
+      return provider;
+    }
+    console.log(provider);
+  };
+  useEffect(() => {
+    setProvider();
+  }, []);
   const handleSubmit = async () => {
     if (!selectedToken) {
       console.error("No token selected to submit.");
@@ -113,12 +171,62 @@ const StepForm = () => {
     try {
       console.log("trying to post");
       setSubmitting(true);
+      console.log(transactions);
+      const addresses = transactions.map((transaction) => transaction.from);
+      const leaves = addresses.map((addr) => keccak256(addr));
+      console.log(leaves);
+
+      // Create a Merkle tree
+      const merkleTree = new MerkleTree(leaves, keccak256, {
+        sortPairs: true,
+        sortLeaves: true,
+      });
+      const root = merkleTree.getRoot().toString("hex");
+      console.log(root);
+      const merkelRootFinal = "0x" + root;
+      console.log(merkelRootFinal);
+
+      const { request } = await publicClient.simulateContract({
+        account: address,
+        address: "0x352349c1aF3f45faed79AEF9dA762BAEE02363cc",
+        abi: AttestationDeployerABI.abi,
+        functionName: "deploy",
+        args: ["0x4200000000000000000000000000000000000021", merkelRootFinal], // Specify the gas limit here
+      });
+
+      const execute = await walletClient.writeContract(request);
+      let resolverAddress = "";
+      if (execute) {
+        const tx = await publicClient.waitForTransactionReceipt({
+          hash: execute,
+        });
+        const data = await publicClient.readContract({
+          account: address,
+          address: "0x352349c1aF3f45faed79AEF9dA762BAEE02363cc",
+          abi: AttestationDeployerABI.abi,
+          functionName: "getDeployedContracts",
+        });
+
+        resolverAddress = data[data.length - 1];
+      }
+
+      const SchemaUid = await registerSchema(resolverAddress);
+
+      const Transactionobj = {
+        merkelRoot: merkelRootFinal,
+        selectedToken: selectedToken,
+        ResolverAddress: resolverAddress,
+        schemUid: SchemaUid,
+      };
+
+      console.log(Transactionobj);
+
       const response = await fetch("http://localhost:3001/api/proposals", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(selectedToken),
+        body: JSON.stringify(Transactionobj),
       });
       if (response.ok) {
         console.log("Token submission successful!");
@@ -138,6 +246,29 @@ const StepForm = () => {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const registerSchema = async (resolverAddress) => {
+    const schemaRegistryContractAddress =
+      "0x4200000000000000000000000000000000000020";
+    const schemaRegistry = new SchemaRegistry(schemaRegistryContractAddress);
+    const provider = await setProvider();
+    const signer = await provider.getSigner();
+    schemaRegistry.connect(signer);
+    const schema =
+      "address lockedContractAddress, string aggrement, address recovertokenAddress ,string tokenSymbol, bytes proof";
+    // Sepolia 0.26
+    const revocable = false;
+
+    const transaction = await schemaRegistry.register({
+      schema,
+      resolverAddress,
+      revocable,
+    });
+
+    await transaction.wait();
+    console.log(transaction["receipt"]["logs"][0]["topics"][1]);
+    return transaction["receipt"]["logs"][0]["topics"][1];
   };
   const handleReset = () => {
     setSubmissionStatus(null);
@@ -378,9 +509,7 @@ const StepForm = () => {
               </div>
               <div className={propstyle.divdetail}>
                 <div className={propstyle.titledetail}>Token Amount</div>
-                <div className={propstyle.titlecontent}>
-                  {(+formatUnits(Totalamount, 18)).toFixed(4)}
-                </div>
+                <div className={propstyle.titlecontent}>{Totalamount}</div>
               </div>
               <div className={propstyle.divdetail}>
                 <div className={propstyle.titledetail}>
