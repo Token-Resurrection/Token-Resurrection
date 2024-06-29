@@ -334,7 +334,7 @@ box-shadow 300ms ease-out;
 
 /* Define common styles for small screens */
 @media (max-width: 600px) {
-  .btncheck, .buttonin11step { margin-top: 10px;
+  .buttonin1step,.btncheck, .buttonin11step { margin-top: 10px;
     padding: 0.25rem 0.5rem; /* 4px 8px */
     font-size: 0.875rem; /* 14px */
    margin-left: 15px;

@@ -91,6 +91,7 @@ const [errorMessage, setErrorMessage] = useState("");
                 {/* Adjust length as needed */}
               </div>
 
+              {/* <div className="text-gray-600">{transaction.amount}</div> */}
               <div className="text-gray-600">{transaction.amount}</div>
             </div>
           ))}

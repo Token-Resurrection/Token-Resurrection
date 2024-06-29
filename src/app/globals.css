@@ -23,9 +23,24 @@ body {
   /* background: white; */
   background-image: url("../Assets/tkbg.png") !important;
   min-height: 80vh;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family:auto;
 
 }
+.aboutheading {
+  background-image: url("../Assets/yellowbg.png") !important;
+  width: 250px; /* Set specific width */
+  height: 70px; /* Set specific height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-size:cover; /* Ensure the background image is contained within the div */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Prevent repeating the background image */
+  margin: 0 auto; /* Center the div horizontally */
+}
+
+
 
 @layer utilities {
   .text-balance {
@@ -63,110 +78,156 @@ body {
   background-color: #eee5ff;
 }
 
-/*landing page section*/
-
-/* Add styles for random-image class if needed */
-.random-image {
-  width: 100%; /* Default width, adjust as needed */
-  height: auto; /* Maintain aspect ratio */
-}
-
-/* Specific styles for each image */
-.img1 {
-  /* Styles for the first image */
-  width: 200px; /* Example width */
-  height: 150px; /* Example height */
-}
-
-.img2 {
-  /* Styles for the second image */
-  width: 250px; /* Example width */
-  height: 200px; /* Example height */
-}
-
-.img3 {
-  /* Styles for the third image */
-  width: 300px; /* Example width */
-  height: 250px; /* Example height */
-}
-/* Global styles or a specific CSS file */
-.random-image {
+/*landing page section*/.image-container {
+  position: relative;
   width: 100%;
   height: auto;
 }
 
-/* Specific styles for each image */
-.img1, .img2, .img3 {
-  width: 100%; /* Make the images take the full width of their container */
-  max-width: 300px; /* Optional: Limit the max width of images */
-  height: auto;
+.image-1,
+.image-2,
+.image-3 {
+  position: absolute;
+  transition: all 0.3s ease;
 }
 
-/* Flex container adjustments for mobile */
-@media (max-width: 640px) {
-  .flex-wrap {
-    flex-wrap: wrap;
-  }
-  .space-x-4 {
-    margin-left: -1rem;
-    margin-right: -1rem;
-  }
-  .space-y-4 > :not([hidden]) ~ :not([hidden]) {
-    margin-top: 1rem;
-  }
-  .sm\:space-y-0 > :not([hidden]) ~ :not([hidden]) {
-    margin-top: 0;
-  }
-  .sm\:my-0 {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+.image-1 {
+  width: 110px;
+  height: 103px;
+  top: -64px;
+  left: 290px;
 }
 
-/* Adjust the padding and margins for better spacing */
-.flex {
+.image-2 {
+  width: 180px;
+  height: 173px;
+  top: 173px;
+  left: 180px;
+}
+
+.image-3 {
+  width: 150px;
+  height: 150px;
+  top: 135px;
+  right: 180px;
+}
+
+.button {
+  width: 150px;
+  transition: all 0.3s ease;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .image-1 {
+    width: 70px;
+    height: 65px;
+    top: -45px;
+    left: 8px;
+  }
+
+  .image-2 {
+    width: 100px;
+    height: 95px;
+    top: 350px;
+    left: 40px;
+  }
+
+  .image-3 {
+    width: 80px;
+    height: 80px;
+    top: 290px;
+    right: 15px;
+  }
+
+  .button {
+    width: 100px;
+  }
+  .aboutheading{width: 250px}
+}
+.proposal {
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 2rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
-.space-x-4 {
-  gap: 1rem;
+
+.proposal h2 {
+  margin: 10px 0;
 }
-.mt-10 {
-  margin-top: 2.5rem;
-}
-.py-10 {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-}
-.w-full {
-  width: 100%;
-}
-.text-3xl {
-  font-size: 1.875rem;
-}
-.text-4xl {
-  font-size: 2.25rem;
-}
-.font-bold {
-  font-weight: 700;
-}
-.mb-5 {
-  margin-bottom: 1.25rem;
-}
-.mx-5 {
-  margin-left: 1.25rem;
-  margin-right: 1.25rem;
-}
-.text-center {
+
+.info {
+  background-color: #060606;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
   text-align: center;
 }
-.bg-black {
-  background-color: #000;
+
+.info p {
+  margin: 10px 0;
+  font-size: 1.1rem;
+  color: #333;
+
 }
-.text-white {
-  color: #fff;
+
+
+/* CSS */
+.hover-effect {
+  
+  transition: color .7s ease, background-color .7s ease, box-shadow .7s ease; /* Adjust transition duration as needed */
 }
-.min-h-screen {
-  min-height: 100vh;
+
+.hover-effect:hover {font-weight:500;
+/* Example hover color, change as needed */
+  color: white; /* Example hover color, change as needed */
+ background-color: #FF8A00;
+  box-shadow: inset 0 -12px 0 #FF8A00;
+}
+
+
+
+.about {text-align: justify;
+  border-radius: 10px;
+
+ 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+
+
+.about { margin:25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+margin-top: 40px;
+padding: 40px;
+
+}
+
+p::selection, span::selection {
+  background: #FF8A00;
+  color: #000;
+}
+.content{ box-shadow: inset 0 -12px 0 #FF8A00;}
+
+/* navbar.module.css */
+.logo-container {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  margin: 10px; /* Adjust margin as needed */
+}
+
+.logo-image {
+  width: 350px; /* Adjust width as needed */
+  height:100px; /* Maintain aspect ratio */
+}
+.abouttext{
+  font-weight:lighter;
 }
