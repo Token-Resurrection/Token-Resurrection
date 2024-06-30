@@ -20,36 +20,36 @@ function MainPage() {
       console.error("Error connecting wallet:", error);
     }
   };
-  // const fetchDataFromApi = async (address) => {
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:3001/api/user?address=${address}`
-  //     );
-  //     const data = await response.json();
-  //     console.log(data);
-  //     if (data.tokens && data.tokens.length > 0) {
-  //       setTokens(data.tokens);
-  //       setShowAddressList(true);
-  //       console.log("first");
-  //     } else if (data.message === "User not found for the specified address") {
-  //       message.info("User not found for the specified address");
-  //       console.log("first");
-  //       setIsValid(false);
-  //     } else {
-  //       message.info("User not found for the specified address");
+  const fetchDataFromApi = async (address) => {
+    try {
+      const response = await fetch(
+        `{process.env.NEXT_PUBLIC_BACKEND_URL}/api/user?address=${address}`
+      );
+      const data = await response.json();
+      console.log(data);
+      if (data.tokens && data.tokens.length > 0) {
+        setTokens(data.tokens);
+        setShowAddressList(true);
+        console.log("first");
+      } else if (data.message === "User not found for the specified address") {
+        message.info("No Attestation or Claims Available at the moment");
+        console.log("first");
+        setIsValid(false);
+      } else {
+        message.info("No Attestation or Claims Available at the moment");
 
-  //       setIsValid(false);
-  //     }
-  //     console.log(data); // Log the fetched data to the console
-  //   } catch (error) {
-  //     console.error("Error fetching data from API:", error);
-  //     message.error("Failed to fetch data from API");
-  //     setIsValid(false);
-  //   }
-  // };
+        setIsValid(false);
+      }
+      console.log(data); // Log the fetched data to the console
+    } catch (error) {
+      console.error("Error fetching data from API:", error);
+      message.error("Failed to fetch data from API");
+      setIsValid(false);
+    }
+  };
 
   const handleCheckAddress = () => {
-    // fetchDataFromApi(address);
+    fetchDataFromApi(address);
     setShowWalletConnect(false);
   };
 

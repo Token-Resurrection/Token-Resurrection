@@ -17,7 +17,7 @@ function AnotherComponent({ onGoBack }) {
   const fetchDataFromApi = async (address) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/user?address=${address}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user?address=${address}`
       );
       console.log(response);
       if (response.status === 404) {

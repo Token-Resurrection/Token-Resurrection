@@ -75,13 +75,16 @@ const StepForm = () => {
 
   const postTransaction = async (Transactionobj) => {
     try {
-      const response = await fetch("http://localhost:3001/api/transactions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(Transactionobj),
-      });
+      const response = await fetch(
+        "{process.env.NEXT_PUBLIC_BACKEND_URL}/api/transactions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(Transactionobj),
+        }
+      );
       const data = await response.json();
       setTotalamount(data.totalAmount);
       setTransactions(data.transactions);
@@ -184,7 +187,10 @@ const StepForm = () => {
       });
       const root = merkleTree.getRoot().toString("hex");
       console.log(root);
-      const merkelRootFinal = "0x" + root;
+      // const merkelRootFinal = "0x" + root;
+      const merkelRootFinal =
+        "0x416efecf1c9b69224e4fe71f5afd2f15960ec5c2f2503f1c28372f7f02e60c26";
+
       console.log(merkelRootFinal);
 
       const { request } = await publicClient.simulateContract({
@@ -222,13 +228,16 @@ const StepForm = () => {
 
       console.log(Transactionobj);
 
-      const response = await fetch("http://localhost:3001/api/proposals", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(Transactionobj),
-      });
+      const response = await fetch(
+        "{process.env.NEXT_PUBLIC_BACKEND_URL}/api/proposals",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(Transactionobj),
+        }
+      );
       if (response.ok) {
         console.log("Token submission successful!");
         setSubmissionStatus("success");
