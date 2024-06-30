@@ -1,5 +1,21 @@
 # Token Resurrection
 
+![Token Resurrection Logo](./src/Assets/logo.png)
+
+## Index
+
+- [Overview](#overview)
+- [Problem Statement](#problem-statement)
+- [Solution Details](#solution-details)
+  - [Verification and Proof Generation](#verification-and-proof-generation)
+  - [Recovery Process](#recovery-process)
+- [Benefits](#benefits)
+- [Challenges Faced](#challenges-faced)
+  - [Creating Strong Verification Logic](#creating-strong-verification-logic)
+  - [Data Collection and Analysis](#data-collection-and-analysis)
+  - [Implementation Issues with Merkle Root](#implementation-issues-with-merkle-root)
+- [Contract Address](#contract-address)
+
 ## Overview
 
 Token Resurrection addresses the issue of tokens being lost when mistakenly transferred to contract addresses. This solution aims to recover these tokens through a structured process involving verification, attestation, and recovery proposal submission. 🔄
@@ -18,16 +34,19 @@ Token Resurrection verifies locked tokens and generates proof of ownership. A Me
 
 1. **Submission**: Users initiate recovery proposals detailing their locked token transactions.
 2. **Approval**: Proposals are submitted to issuers or contract owners for approval.
-
 3. **Disbursement**: Upon approval, tokens are distributed:
    - Users receive 70% of locked tokens. 💼
    - Issuers receive 20%. 📈
    - Token Resurrection retains 10% for facilitation. 🔄
 
-### Benefits
+## Benefits
 
 - **Auditing and Transparency**: Introduces concepts like Gross and Net Circulating Supply, enhancing transparency for token issuers. 📊
 - **Community Engagement**: Increases trust and loyalty within decentralized autonomous organizations (DAOs) by facilitating token recovery for their communities. 🌐
+
+## Project flow
+
+![Token Resurrection Flow](./src/Assets/miroflow.png)
 
 ## Challenges Faced
 
