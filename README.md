@@ -22,7 +22,7 @@ Token Resurrection addresses the issue of tokens being lost when mistakenly tran
 
 ## Problem Statement
 
-Tokens transferred to contract addresses are often irretrievable, leading to permanent loss for users. Token Resurrection provides a mechanism to recover such tokens, benefiting users, issuers, and the platform facilitating the recovery process. 🛠️
+Currently, there is no means to connect with the issuer and build a community around these lost tokens.Tokens transferred to contract addresses are often irretrievable, leading to permanent loss for users. Token Resurrection provides a mechanism to recover such tokens, benefiting users, issuers, and the platform facilitating the recovery process. 🛠️
 
 ## Solution Details
 
