@@ -61,13 +61,13 @@
 
 .disconnectButton {
   position: absolute;
-  top: 100%; /* Position below the address button */
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: red; /* Customize as needed */
-  color: white; /* Customize as needed */
-  border: none; /* Customize as needed */
-  padding: 5px 10px; /* Customize as needed */
+  background-color: red; 
+  color: white; 
+  border: none; 
+  padding: 5px 10px;
   cursor: pointer;
-  z-index: 10; /* Ensure it appears above other elements */
+  z-index: 10; 
 }

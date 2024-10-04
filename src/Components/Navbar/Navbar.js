@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import "@coinbase/onchainkit/styles.css";
-import style from "./navabr.module.css"; // Import your custom styles
+import styles from "./navbar.module.css";
 import AccountConnect from "./ConnectAccount";
 import Image from "next/image";
 import logo from "@/Assets/logo.png";
@@ -25,7 +25,10 @@ function Navbar() {
     <Menu>
       {chains.map((chain) => (
         <Menu.Item key={chain.id}>
-          <Button type="link" onClick={() => switchChain({ chainId: chain.id })}>
+          <Button
+            type="link"
+            onClick={() => switchChain({ chainId: chain.id })}
+          >
             {chain.name}
           </Button>
         </Menu.Item>
@@ -41,25 +44,29 @@ function Navbar() {
             <Image src={logo} width={400} alt="alt" />
           </Link>
         </div>
-        <div className={style.walletbtncontainer}>
-          {address && address.length > 0 && ( // Check if address is valid
-            <div className={style.networkdiv}>
-              {chainId === 8453 ? (
-                <Tooltip title="Connected to Base">
-                  <img
-                    width={30}
-                    src="https://altcoinsbox.com/wp-content/uploads/2023/02/base-logo-in-blue.webp"
-                    alt="Base Network"
-                  />
-                </Tooltip>
-              ) : (
-                <Dropdown menu={menu} trigger={['hover']}>
-                  <FontAwesomeIcon icon={faTriangleExclamation} style={{ cursor: 'pointer' }} />
-                </Dropdown>
-              )}
-            </div>
-          )}
-          <div className={style.walletbtn}>
+        <div className={styles.walletbtncontainer}>
+          {address &&
+            address.length > 0 && ( // Check if address is valid
+              <div className={styles.networkdiv}>
+                {chainId === 8453 ? (
+                  <Tooltip title="Connected to Base">
+                    <img
+                      width={30}
+                      src="https://altcoinsbox.com/wp-content/uploads/2023/02/base-logo-in-blue.webp"
+                      alt="Base Network"
+                    />
+                  </Tooltip>
+                ) : (
+                  <Dropdown menu={menu} trigger={["hover"]}>
+                    <FontAwesomeIcon
+                      icon={faTriangleExclamation}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </Dropdown>
+                )}
+              </div>
+            )}
+          <div className={styles.walletbtn}>
             <AccountConnect />
           </div>
         </div>
