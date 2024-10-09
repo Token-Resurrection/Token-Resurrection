@@ -1,0 +1,112 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 90vh;
+  padding: 155px;
+  justify-content: center;
+}
+
+.tabHeaders {
+  display: flex;
+  /* border-bottom: 2px solid #ccc; */
+}
+
+
+
+.tabContent {
+  padding: 20px;
+  width: 100%;
+  min-width: 600px;
+  border-radius: 50px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  background: white;
+  min-height: 550px;
+}
+
+.tabButton1:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+
+.tabButton1:hover{
+  background: #0f945d;
+
+}
+.tabButton1{
+  color: #fafafa;
+  text-transform: uppercase;
+  padding: 2px 25px;
+  border: 1px solid #2EBF82;
+  background: #2EBF82;
+  box-shadow: 4px 6px #5BFFBA;
+  cursor: pointer;
+  margin: 35px 10px;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.3rem;
+}
+
+.tabButton2:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+
+.tabButton2:hover{
+  background: #072593;
+
+}
+.tabButton2{
+  font-size: 1.5rem;
+  color: #fafafa;
+  text-transform: uppercase;
+  padding: 2px 25px;
+  border: 1px solid #1640D4;
+  background: #1640D4;
+  box-shadow: 4px 6px #3461FF;
+  cursor: pointer;
+  margin: 35px 10px;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.3rem; /* 14px */
+}
+
+.tabButton3:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+
+.tabButton3:hover{
+  background: #b96403;
+
+}
+.tabButton3{
+  font-size: 1.5rem;
+  color: #fafafa;
+  text-transform: uppercase;
+  padding: 2px 25px;
+  border: 1px solid #FF8A00;
+  background: #FF8A00;
+  box-shadow: 4px 6px #FFB320;
+  cursor: pointer;
+  margin: 35px 10px;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.3rem; /* 14px */
+}
+
+.tabButton4:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+
+.tabButton4{
+  font-size: 1.5rem;
+  color: #fafafa;
+  text-transform: uppercase;
+  padding: 2px 25px;
+  border: 1px solid #C01C1C;
+  background: #C01C1C;
+  box-shadow: 4px 6px #FF3131;
+  cursor: pointer;
+  margin: 35px 10px;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.3rem; /* 14px */
+}

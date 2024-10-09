@@ -1,0 +1,302 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* :root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+} */
+
+body {
+  color: rgb(var(--foreground-rgb));
+  /* background: white; */
+  background-image: url("../Assets/tkbg.png") !important;
+  min-height: 80vh;
+  font-family: auto;
+}
+.aboutheading {
+  background-image: url("../Assets/yellowbg.png") !important;
+  width: 250px; /* Set specific width */
+  height: 70px; /* Set specific height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-size: cover; /* Ensure the background image is contained within the div */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Prevent repeating the background image */
+  margin: 0 auto; /* Center the div horizontally */
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.popup-message {
+  color: rgb(0, 0, 0);
+  position: fixed;
+  top: 47%;
+  left: 80%;
+  transform: translate(-50%, -50%);
+  background: #ffeabf;
+  border: 1px solid #ffb920;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.close-popup {
+  color: #5500ff;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  float: right;
+  padding-left: 12px;
+}
+/* styles.css or appropriate CSS file */
+.dull-button {
+  background-color: #ff8a00;
+  color: white;
+  cursor: not-allowed;
+}
+.totaltoken {
+  background-color: #eee5ff;
+}
+
+/*landing page section*/
+.image-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.image-1,
+.image-2,
+.image-3 {
+  position: absolute;
+  transition: all 0.3s ease;
+}
+
+.image-1 {
+  width: 110px;
+  height: 103px;
+  top: -64px;
+  left: 290px;
+}
+
+.image-2 {
+  width: 180px;
+  height: 173px;
+  top: 173px;
+  left: 180px;
+}
+
+.image-3 {
+  width: 150px;
+  height: 150px;
+  top: 135px;
+  right: 180px;
+}
+
+.button {
+  width: 150px;
+  transition: all 0.3s ease;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .image-1 {
+    width: 70px;
+    height: 65px;
+    top: -45px;
+    left: 8px;
+  }
+
+  .image-2 {
+    width: 100px;
+    height: 95px;
+    top: 350px;
+    left: 40px;
+  }
+
+  .image-3 {
+    width: 80px;
+    height: 80px;
+    top: 290px;
+    right: 15px;
+  }
+
+  .button {
+    width: 100px;
+  }
+  .aboutheading {
+    width: 250px;
+  }
+}
+.proposal {
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.proposal h2 {
+  margin: 10px 0;
+}
+
+.info {
+  background-color: #060606;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.info p {
+  margin: 10px 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* CSS */
+.hover-effect {
+  transition: color 0.7s ease, background-color 0.7s ease, box-shadow 0.7s ease; /* Adjust transition duration as needed */
+}
+
+.hover-effect:hover {
+  font-weight: 500;
+  /* Example hover color, change as needed */
+  color: white; /* Example hover color, change as needed */
+  background-color: #ff8a00;
+  box-shadow: inset 0 -12px 0 #ff8a00;
+}
+
+.about {
+  text-align: justify;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about {
+  margin: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+  margin-top: 40px;
+  padding: 40px;
+}
+
+p::selection,
+span::selection {
+  background: #ff8a00;
+  color: #000;
+}
+.content {
+  box-shadow: inset 0 -12px 0 #ff8a00;
+}
+
+/* navbar.module.css */
+.logo-container {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  margin: 10px; /* Adjust margin as needed */
+}
+
+.logo-image {
+  width: 350px; /* Adjust width as needed */
+  height: 100px; /* Maintain aspect ratio */
+}
+.abouttext {
+  font-weight: lighter;
+}
+
+.walletbtncontainer {
+  position: relative;
+  display: inline-block;
+  display: flex;
+  align-items: center;
+}
+.networkdiv img {
+  margin-right: 5px;
+}
+.networkdiv {
+  padding: 5px;
+}
+.walletbtn button {
+  background-color: #ffd600;
+  font-weight: 900 !important;
+}
+.walletbtn {
+  background-color: #ffd600;
+  padding: 14px 33px;
+  font-weight: 700;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 13px;
+  position: relative;
+  border-radius: 50%;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.walletbtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  border: 1px solid black;
+  transform: skewY(-10deg);
+  z-index: -1;
+  /* background-color: #FFD600; */
+  transition: transform 0.3s ease;
+}
+
+.walletbtn:hover {
+  transform: translateY(-5px);
+}
+
+.walletbtn:hover::before {
+  transform: skewY(0deg);
+}
+
+.dynamicWidth {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.disconnectButton {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  z-index: 10;
+}
