@@ -46,7 +46,7 @@ function Navbar() {
         <div className="walletbtncontainer">
           {address &&
             address.length > 0 && ( // Check if address is valid
-              <div className={style.networkdiv}>
+              <div>
                 {chainId === 8453 ? (
                   <Tooltip title="Connected to Base">
                     <img
