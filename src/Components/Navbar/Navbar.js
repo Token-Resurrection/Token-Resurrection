@@ -10,6 +10,7 @@ import { getChainId } from "@/Helpers/getChainId";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 function Navbar() {
   const chainId = useChainId();
@@ -44,29 +45,8 @@ function Navbar() {
           </Link>
         </div>
         <div className="walletbtncontainer">
-          {address &&
-            address.length > 0 && ( // Check if address is valid
-              <div>
-                {chainId === 8453 ? (
-                  <Tooltip title="Connected to Base">
-                    <img
-                      width={30}
-                      src="https://altcoinsbox.com/wp-content/uploads/2023/02/base-logo-in-blue.webp"
-                      alt="Base Network"
-                    />
-                  </Tooltip>
-                ) : (
-                  <Dropdown menu={menu} trigger={["hover"]}>
-                    <FontAwesomeIcon
-                      icon={faTriangleExclamation}
-                      style={{ cursor: "pointer" }}
-                    />
-                  </Dropdown>
-                )}
-              </div>
-            )}
           <div className="walletbtn">
-            <AccountConnect />
+            <ConnectButton />
           </div>
         </div>
       </div>

@@ -1,20 +1,14 @@
-import { http, createConfig } from "wagmi";
-import { base } from "wagmi/chains";
-import { coinbaseWallet, metaMask } from "wagmi/connectors";
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+import { optimism, optimismSepolia } from "wagmi/chains";
 
-export const wagmiConfig = createConfig({
-  chains: [base],
-  multiInjectedProviderDiscovery: false,
-  connectors: [
-    coinbaseWallet({
-      appName: "yourAppName",
-      preference: "all",
-      version: "4",
-    }),
-    // metaMask(),
+export const config = getDefaultConfig({
+  appName: "RainbowKit demo",
+  projectId: "YOUR_PROJECT_ID",
+  chains: [
+    optimism,
+    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true"
+      ? [optimismSepolia]
+      : []),
   ],
   ssr: true,
-  transports: {
-    [base.id]: http(),
-  },
 });

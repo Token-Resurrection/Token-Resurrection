@@ -18,7 +18,7 @@ export async function GET(NextRequest) {
   try {
     await client.connect();
     const db = client.db("users");
-    const collection = db.collection("userBalances");
+    const collection = db.collection("userBalancesInWei2");
 
     const userData = await collection.findOne({
       userAddress: userAddress.toLowerCase(),

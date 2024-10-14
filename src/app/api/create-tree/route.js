@@ -11,7 +11,7 @@ const getAirdropData = () => {
     "src",
     "app",
     "api",
-    "airdropData.json"
+    "processed_data.json"
   );
 
   const rawData = fs.readFileSync(filePath, "utf-8");

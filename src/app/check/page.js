@@ -27,7 +27,7 @@ function MainPage() {
         `${process.env.NEXT_PUBLIC_URL}/api/get-user-contracts?userAddress=${address}`
       );
       const data = await response.json();
-      console.log(data);
+      console.log("the data hehe", data);
       if (data.tokens && data.tokens.length > 0) {
         setTokens(data.tokens);
         setShowAddressList(true);

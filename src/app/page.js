@@ -4,13 +4,15 @@ import Image from "next/image";
 
 export const metadata = {
   title: "Token Resurrection",
-  description: "Join Token Resurrection to Approve, Claim, and Unlock the Value of Locked Tokens",
+  description:
+    "Join Token Resurrection to Approve, Claim, and Unlock the Value of Locked Tokens",
 };
 
 export default function Home() {
   return (
-    <div >
-     <Section1/>
+    <div>
+      <Navbar />
+      <Section1 />
     </div>
   );
 }

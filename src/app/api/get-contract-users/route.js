@@ -18,10 +18,10 @@ export async function GET(NextRequest) {
   try {
     await client.connect();
     const db = client.db("users");
-    const collection = db.collection("userBalances");
+    const collection = db.collection("userBalancesInWei2");
 
     const users = await collection
-      .find({ "contracts.contractAddress": contractAddress.toLowerCase() })
+      .find({ "contracts.contractAddress": contractAddress })
       .toArray();
 
     if (users.length === 0) {
@@ -33,10 +33,7 @@ export async function GET(NextRequest) {
 
     const response = users.flatMap((user) =>
       user.contracts
-        .filter(
-          (contract) =>
-            contract.contractAddress === contractAddress.toLowerCase()
-        )
+        .filter((contract) => contract.contractAddress === contractAddress)
         .map((contract) => ({
           userAddress: user.userAddress,
           balance: contract.balance,
@@ -49,8 +46,9 @@ export async function GET(NextRequest) {
       count: response.length,
     });
   } catch (error) {
+    console.error("Error processing request:", error);
     return NextResponse.json(
-      { error: "An error occurred while processing your request" },
+      { error: "An internal server error occurred", details: error.message },
       { status: 500 }
     );
   } finally {

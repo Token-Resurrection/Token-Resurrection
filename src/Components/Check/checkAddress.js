@@ -15,29 +15,39 @@ function AnotherComponent({ onGoBack }) {
   };
 
   const fetchDataFromApi = async (address) => {
-    console.log(address);
+    console.log("Fetching data for address:", address);
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL}/api/get-user-contracts?userAddress=${address}`
       );
 
-      if (response.status === 404) {
-        message.info("No Attestation or Claims Available at the moment");
+      const data = await response.json();
+      if (!response.ok) {
+        if (response.status === 404) {
+          message.info("No locked tokens found at this address");
+          throw new Error("No locked tokens found at this address");
+        } else {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
       } else {
-        const data = await response.json();
-        console.log(data);
-        // Assuming the contracts are in data.contracts
         if (data.contracts && data.contracts.length > 0) {
           // Set the entire contracts array to the tokens state
           setTokens(data.contracts);
           setShowAddressList(true);
-        } else {
-          setIsValid(false);
         }
       }
+
+      return {
+        success: true,
+        data: data,
+      };
     } catch (error) {
       console.error("Error fetching data from API:", error);
-      setIsValid(false);
+      return {
+        success: false,
+        error: error.message || "An unknown error occurred",
+      };
     }
   };
 
