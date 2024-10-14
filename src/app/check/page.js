@@ -1,110 +1,107 @@
 "use client";
 import React, { useState } from "react";
-import AddressList from "../../Components/Check/checkAddress"; // Ensure the correct path to your component
+import AddressList from "../../Components/Check/addressList";
 import formstyle from "../../Components/SubmitDao/stepfrom.module.css";
 import { useAccount, useConnect } from "wagmi";
 import { message } from "antd";
 
 function MainPage() {
-  const [showWalletConnect, setShowWalletConnect] = useState(true);
   const { address, isConnected } = useAccount();
   const { connect } = useConnect();
   const [tokens, setTokens] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [showAddressList, setShowAddressList] = useState(false);
-  const [isValid, setIsValid] = useState(null);
 
   const handleConnectWallet = async () => {
     try {
       await connect();
     } catch (error) {
       console.error("Error connecting wallet:", error);
+      message.error("Failed to connect wallet. Please try again.");
     }
   };
-  const fetchDataFromApi = async (address) => {
+
+  const fetchDataFromApi = async (addressToCheck) => {
+    setIsLoading(true);
     try {
-      console.log("the address");
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/get-user-contracts?userAddress=${address}`
+        `${process.env.NEXT_PUBLIC_URL}/api/get-user-contracts?userAddress=${addressToCheck}`
       );
       const data = await response.json();
-      console.log("the data hehe", data);
-      if (data.tokens && data.tokens.length > 0) {
-        setTokens(data.tokens);
-        setShowAddressList(true);
-        console.log("first");
-      } else if (data.message === "User not found for the specified address") {
-        message.info("No Attestation or Claims Available at the moment");
-        console.log("first");
-        setIsValid(false);
-      } else {
-        message.info("No Attestation or Claims Available at the moment");
 
-        setIsValid(false);
+      if (!response.ok) {
+        throw new Error(
+          data.message || `HTTP error! status: ${response.status}`
+        );
       }
-      console.log(data); // Log the fetched data to the console
+
+      if (data.contracts && data.contracts.length > 0) {
+        setTokens(data.contracts);
+        setShowAddressList(true);
+      } else {
+        message.info("No locked tokens found at this address");
+      }
     } catch (error) {
       console.error("Error fetching data from API:", error);
-      message.error("Failed to fetch data from API");
-      setIsValid(false);
+      message.error(error.message || "An error occurred while fetching data");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleCheckAddress = () => {
-    console.log("hello bhaisaab");
-    fetchDataFromApi(address);
-    setShowWalletConnect(false);
+    if (isConnected) {
+      fetchDataFromApi(address);
+    } else {
+      message.warning("Please connect your wallet first");
+    }
   };
 
   const handleGoBack = () => {
     setShowAddressList(false);
-    setIsValid(null);
     setTokens([]);
-    setShowWalletConnect(true);
-  };
-
-  const handleAddressBtnClick = () => {
-    fetchDataFromApi(address);
   };
 
   return (
-    <div className="maindiv flex justify-center items-center min-h-screen py-4">
+    <div className="flex justify-center items-center min-h-screen py-4">
       <div
         className={`${formstyle.checkpage} w-full lg:w-3/4 xl:w-2/3 bg-white px-4 py-4 md:px-8 md:py-8 rounded-3xl shadow-2xl text-center h-auto mt-12`}
       >
-        <div className="text-gray-900 text-4xl font-bold p-4 m-2 w-full text-center">
-          <h1>Token Resurrection</h1>
-        </div>
-        {showWalletConnect ? (
+        <h1 className="text-gray-900 text-4xl font-bold p-4 m-2 w-full text-center">
+          Token Resurrection
+        </h1>
+
+        {!showAddressList ? (
           <div className="flex flex-col md:flex-row justify-center items-center w-full">
-            {isConnected ? (
-              <button
-                onClick={handleAddressBtnClick}
-                className={`${formstyle.buttonin1step} m-2 w-full md:w-auto`}
-              >
-                {address.substring(0, 5)}...
-                {address.substring(address.length - 5)}
-              </button>
-            ) : (
-              <button
-                className={`${formstyle.buttonin1step} m-2 w-full md:w-auto`}
-                onClick={handleConnectWallet}
-              >
-                Connect Wallet
-              </button>
-            )}
-            <span className="mx-2 font-semibold text-2xl text-gray-900">
-              or
-            </span>
             <button
-              className={`${formstyle.btncheck} m-2 w-full md:w-auto`}
-              onClick={handleCheckAddress}
+              className={`${formstyle.buttonin1step} m-2 w-full md:w-auto`}
+              onClick={isConnected ? handleCheckAddress : handleConnectWallet}
             >
-              Check Address
+              {isConnected
+                ? `${address.substring(0, 5)}...${address.substring(
+                    address.length - 5
+                  )}`
+                : "Connect Wallet"}
             </button>
+            {isConnected && (
+              <>
+                <span className="mx-2 font-semibold text-2xl text-gray-900">
+                  or
+                </span>
+                <button
+                  className={`${formstyle.btncheck} m-2 w-full md:w-auto`}
+                  onClick={handleCheckAddress}
+                >
+                  Check Address
+                </button>
+              </>
+            )}
           </div>
         ) : (
           <AddressList onGoBack={handleGoBack} tokens={tokens} />
         )}
+
+        {isLoading && <p>Loading...</p>}
       </div>
     </div>
   );
