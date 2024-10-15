@@ -33,7 +33,7 @@ function AnotherComponent({ onGoBack }) {
       } else {
         if (data.contracts && data.contracts.length > 0) {
           // Set the entire contracts array to the tokens state
-          setTokens(data.contracts);
+          setTokens(data);
           setShowAddressList(true);
         }
       }

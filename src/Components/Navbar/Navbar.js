@@ -18,7 +18,7 @@ function Navbar() {
   const { chains, switchChain } = useSwitchChain();
 
   useEffect(() => {
-    console.log(chainId);
+    console.log("chainId", chainId);
   }, [chainId]);
 
   const menu = (

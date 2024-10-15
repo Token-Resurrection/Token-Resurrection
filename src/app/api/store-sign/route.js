@@ -39,7 +39,7 @@ export async function POST(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error processing request:", error);
+    console.error("Error processing requesttttttttttttt:", error.message);
     return NextResponse.json(
       { error: "An internal server error occurred", details: error.message },
       { status: 500 }

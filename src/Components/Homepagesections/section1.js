@@ -62,17 +62,17 @@ function Section1() {
           Claim, and Recover Your Lost Tokens
         </h1>
         <div className="flex justify-center gap-4 flex-wrap">
-          <a href="/check" target="_blank" rel="noopener noreferrer">
+          <a href="/check" rel="noopener noreferrer">
             <button className={`${formstyle.buttonin1stp} button`}>
               Claim Tokens
             </button>
           </a>
-          <a href="/submit" target="_blank" rel="noopener noreferrer">
+          <a href="/submit" rel="noopener noreferrer">
             <button className={`${formstyle.buttonin1stp} button`}>
               Submit Proposal
             </button>
           </a>
-          <a href="/dao" target="_blank" rel="noopener noreferrer">
+          <a href="/dao" rel="noopener noreferrer">
             <button className={`${formstyle.buttonin1stp} button`}>
               Explore Proposal
             </button>
