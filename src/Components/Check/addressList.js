@@ -47,7 +47,7 @@ function AddressList({ onGoBack, tokens }) {
 
   const handleSign = async (details) => {
     console.log(details);
-    const recoveredAmount = Math.round(details.balance * 0.7);
+    const recoveredAmount = Math.floor(details.balance * 0.7);
     const signature = await signMessage(config, {
       message: `I agree to receive ${recoveredAmount} tokens back, which is 70% of my locked ${details.balance} tokens. With 20% given to the issuer and 10% retained by Token Resurrection for facilitating the recovery process.`,
     });

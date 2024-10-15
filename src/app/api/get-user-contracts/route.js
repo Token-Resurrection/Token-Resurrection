@@ -30,26 +30,24 @@ export async function GET(NextRequest) {
 
     const contractInfo = [];
     let totalBalance = 0;
+    let totalClaimable = 0;
 
     for (const contract of userData.contracts || []) {
       contractInfo.push({
         contractAddress: contract.contractAddress,
         balance: contract.balance,
       });
-      totalBalance += contract.balance;
-    }
 
-    const response = {
-      userAddress: userAddress,
-      contracts: contractInfo,
-      totalBalance: totalBalance,
-      count: contractInfo.length,
-    };
+      console.log(typeof contract.balance);
+      totalBalance += parseInt(contract.balance);
+      totalClaimable += parseInt(contract.balance) * 0.7;
+    }
 
     return NextResponse.json({
       userAddress: userAddress,
       contracts: contractInfo,
-      totalBalance: totalBalance,
+      totalBalance: totalBalance.toString(),
+      totalClaimable: Math.floor(totalClaimable).toString(),
       count: contractInfo.length,
     });
   } catch (error) {

@@ -18,7 +18,7 @@ export async function GET(NextRequest) {
   try {
     await client.connect();
     const db = client.db("users");
-    const collection = db.collection("userBalancesInWei2");
+    const collection = db.collection("userBalances2");
 
     const users = await collection
       .find({ "contracts.contractAddress": contractAddress })

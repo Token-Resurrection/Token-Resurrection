@@ -11,7 +11,7 @@ const getAirdropData = () => {
     "src",
     "app",
     "api",
-    "processed_data.json"
+    "merkleData.json"
   );
 
   const rawData = fs.readFileSync(filePath, "utf-8");

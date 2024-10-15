@@ -19,7 +19,7 @@ export async function POST(req) {
     // Connect to the database
     await client.connect();
     const db = client.db("users");
-    const collection = db.collection("userBalancesInWei2");
+    const collection = db.collection("userBalances2");
 
     // Update the document matching the address
     const result = await collection.updateOne(
