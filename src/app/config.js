@@ -5,6 +5,6 @@ export const config = createConfig({
   chains: [optimism, optimismSepolia],
   transports: {
     [optimism.id]: http(),
-    // [optimismSepolia.id]: http(),
+    [optimismSepolia.id]: http(),
   },
 });

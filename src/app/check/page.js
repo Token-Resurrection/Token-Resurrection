@@ -28,6 +28,19 @@ function MainPage() {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URL}/api/get-user-contracts?userAddress=${addressToCheck}`
       );
+
+      if (response.status === 404) {
+        message.info("No locked tokens found at this address");
+        return;
+      }
+      if (response.status === 500) {
+        message.info("Network issue please try again");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        return;
+      }
+
       const data = await response.json();
       console.log("data coming here", data);
 

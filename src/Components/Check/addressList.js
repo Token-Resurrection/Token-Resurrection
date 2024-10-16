@@ -105,7 +105,9 @@ function AddressList({ tokens }) {
   const contracts = tokens;
   console.log("inc data", contracts);
 
-  return (
+  return !tokens.count ? (
+    <h1> No locked tokens found</h1>
+  ) : (
     <div className="flex flex-col justify-center items-center h-full px-4 w-full">
       <div className="text-gray-900 text-2xl font-bold p-4 m-2 w-full text-center">
         <h2>You are eligible for the following tokens:</h2>
