@@ -4,6 +4,7 @@ import Activeproposal from "./Activeproposal";
 import Rejectedproposal from "./Rejectedproposals";
 import Completedproposal from "./Completedproposal";
 import tabstyle from "./alltabs.module.css";
+import axios from "axios";
 
 const Alltabs = () => {
   const [activeTab, setActiveTab] = useState("1");
@@ -12,11 +13,16 @@ const Alltabs = () => {
 
   const fetchData = async (url) => {
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
+      if (response.status !== 200) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      const data = await response.json();
+      const data = response.data;
       if (data.length === 0) {
         setDataMessage("No data available.");
         setData([]);
@@ -33,17 +39,23 @@ const Alltabs = () => {
 
   const handleActiveClick = () => {
     setActiveTab("1");
-    fetchData("{process.env.NEXT_PUBLIC_URL}/api/proposals/status/active");
+    fetchData(
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/api/proposals/status/active`
+    );
   };
 
   const handleCompletedClick = () => {
     setActiveTab("2");
-    fetchData("{process.env.NEXT_PUBLIC_URL}/api/proposals/status/approved");
+    fetchData(
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/api/proposals/status/approved`
+    );
   };
 
   const handleRejectedClick = () => {
     setActiveTab("3");
-    fetchData("{process.env.NEXT_PUBLIC_URL}/api/proposals/status/rejected");
+    fetchData(
+      `${process.env.NEXT_PUBLIC_URL_BACKEND}/api/proposals/status/rejected`
+    );
   };
 
   useEffect(() => {

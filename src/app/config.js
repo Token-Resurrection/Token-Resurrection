@@ -4,7 +4,8 @@ import { optimism, optimismSepolia } from "@wagmi/core/chains";
 export const config = createConfig({
   chains: [optimism, optimismSepolia],
   transports: {
-    [optimism.id]: http(),
+    // [optimism.id]: http(),
     [optimismSepolia.id]: http(),
   },
+  ssr: true,
 });

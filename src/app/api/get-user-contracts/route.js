@@ -32,13 +32,34 @@ export async function GET(NextRequest) {
     let totalBalance = 0;
     let totalClaimable = 0;
 
+    // const apiKey = "FBMND61RM2KYWDHWD42PRMTAX5UE2H153G";
+    const apiKey = process.env.ETHERSCAN_API_KEY;
+
+    const apiUrl =
+      "https://api-optimistic.etherscan.io/api?module=contract&action=getsourcecode&apikey=" +
+      apiKey;
+
     for (const contract of userData.contracts || []) {
+      let contractName = "Unknown";
+      try {
+        const response = await fetch(
+          `${apiUrl}&address=${contract.contractAddress}`
+        );
+        const data = await response.json();
+
+        if (data.status === "1" && data.result && data.result[0]) {
+          contractName = data.result[0].ContractName;
+        }
+      } catch (error) {
+        console.log("Error fetching contract name:", error);
+      }
+
       contractInfo.push({
         contractAddress: contract.contractAddress,
         balance: contract.balance,
+        contractName: contractName,
       });
 
-      console.log(typeof contract.balance);
       totalBalance += parseInt(contract.balance);
       totalClaimable += parseInt(contract.balance) * 0.7;
     }
@@ -46,13 +67,14 @@ export async function GET(NextRequest) {
     return NextResponse.json({
       userAddress: userAddress,
       contracts: contractInfo,
-      totalBalance: totalBalance.toString(),
-      totalClaimable: Math.floor(totalClaimable).toString(),
+      totalBalance: BigInt(totalBalance).toString(),
+      totalClaimable: BigInt(Math.floor(totalClaimable)).toString(),
       count: contractInfo.length,
     });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
-      { error: "An error occurred while processing your request" },
+      { error: "Internal Server Error. Please try again later." },
       { status: 500 }
     );
   } finally {

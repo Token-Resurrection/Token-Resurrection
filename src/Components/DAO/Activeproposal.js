@@ -2,35 +2,135 @@
 import React, { useState, useEffect } from "react";
 import propstyle from "./proposals.module.css";
 import Modal from "react-modal";
-import formstyle from "../SubmitDao/stepfrom.module.css";
+import { Modal as AntdModal } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { Tooltip, message, Skeleton, Empty } from "antd";
-
+import TransactionsModalContent from "./TransactionsModalContent";
+import formstyle from "@/Components/SubmitDao/stepfrom.module.css";
 function Activeproposal({ data }) {
+  const ACTIVE_CONTRACT_ADDRESS = "0x4200000000000000000000000000000000000042";
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [filteredData, setFilteredData] = useState();
+  //   const addresses = selectedData?.addresses || [];
+  //   const tokenName = selectedData?.tokenName || "";
+  //   const chainId = selectedData?.chainId || "";
+  //   // Filtered addresses based on search query
+  //   const filteredAddresses = addresses.filter((transaction) =>
+  //     (transaction.from || "").toLowerCase().includes(searchQuery.toLowerCase())
+  //   );
+  //   // Safe formatting function
+  //   const safeFormatUnits = (amount, decimals) => {
+  //     try {
+  //       return (+formatUnits(amount, decimals)).toFixed(4);
+  //     } catch (error) {
+  //       console.error("Error formatting units:", error);
+  //       return "0.0000";
+  //     }
+  //   };
+  //   return (
+  //     <div className="w-full max-w-3xl mx-auto">
+  //       {!showTransaction ? (
+  //         <div className="p-6">
+  //           <h2 className="text-2xl font-bold mb-6">
+  //             Addresses of Token Holder and Amount Locked
+  //           </h2>
+  //           <input
+  //             type="text"
+  //             placeholder="Search address"
+  //             value={searchQuery}
+  //             onChange={(e) => setSearchQuery(e.target.value)}
+  //             className="mb-6 p-3 border border-gray-300 rounded w-full"
+  //           />
+  //           <div className="max-h-96 overflow-y-auto">
+  //             <div className="grid grid-cols-3 gap-4 font-semibold mb-4 px-4">
+  //               <div>Address</div>
+  //               <div>Amount</div>
+  //               <div>Actions</div>
+  //             </div>
+  //             {filteredAddresses.map((transaction, index) => (
+  //               <div
+  //                 key={index}
+  //                 className={`grid grid-cols-3 gap-4 py-3 px-4 ${
+  //                   index % 2 === 0 ? "bg-gray-100" : "bg-white"
+  //                 }`}
+  //               >
+  //                 <div className="text-gray-800 truncate">
+  //                   {transaction.from || "N/A"}
+  //                 </div>
+  //                 <div className="text-gray-600">
+  //                   {tokenName === "USDC"
+  //                     ? safeFormatUnits(transaction.amount || "0", 6)
+  //                     : safeFormatUnits(transaction.amount || "0", 18)}
+  //                 </div>
+  //                 <button
+  //                   onClick={() => getTransactionHash(transaction)}
+  //                   className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition-colors"
+  //                 >
+  //                   View Transactions
+  //                 </button>
+  //               </div>
+  //             ))}
+  //           </div>
+  //         </div>
+  //       ) : (
+  //         <div className="p-6">
+  //           <h2 className="text-2xl font-bold mb-6">Transactions</h2>
+  //           <div className="max-h-96 overflow-y-auto mb-6">
+  //             {(transactionHash || []).map((transaction, index) => (
+  //               <div className="text-gray-800 mb-4" key={transaction}>
+  //                 Transaction {index + 1}
+  //                 <a
+  //                   href={`${explorerLinks[chainId] || "#"}${transaction}`}
+  //                   target="_blank"
+  //                   rel="noopener noreferrer"
+  //                   className="block mb-2 break-all text-blue-500 hover:text-blue-600"
+  //                 >
+  //                   {transaction}
+  //                 </a>
+  //               </div>
+  //             ))}
+  //           </div>
+  //           <button
+  //             onClick={() => setShowTransaction(false)}
+  //             className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
+  //           >
+  //             Back to Addresses
+  //           </button>
+  //         </div>
+  //       )}
+  //     </div>
+  //   );
+  // };
+  const chainName = {
+    10: "Optimism",
+    1: "Ethereum",
+    42161: "Arbitrum",
+  };
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000); // 2 seconds
-
     return () => clearTimeout(timer);
   }, []);
-
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
   const openModal = (data) => {
     setSelectedData(data);
     setModalIsOpen(true);
   };
-
   const closeModal = () => {
     setModalIsOpen(false);
     setSelectedData(null);
   };
-
   const copyToClipboard = (text) => {
     navigator.clipboard
       .writeText(text)
@@ -41,23 +141,26 @@ function Activeproposal({ data }) {
         alert("Failed to copy text: ", err);
       });
   };
-
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
-
-  const filteredData = data.filter(
-    (item) =>
-      item.tokenAddress.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.tokenName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.contractAddress.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
+  useEffect(() => {
+    if (data && data.length > 0) {
+      const filteredData = data?.filter(
+        (item) =>
+          item.tokenAddress.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.tokenName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.contractAddress.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredData(filteredData);
+    }
+    console.log(filteredData);
+  }, [data]);
   return (
     <div className={propstyle.outerdivprop1}>
       <div className={propstyle.maindivofproposal1}>
         <div className={propstyle.headingprop}>Active Proposal</div>
-        <div className={propstyle.searchbardiv}>
+        {/* <div className={propstyle.searchbardiv}>
           <input
             type="text"
             placeholder="search..."
@@ -67,11 +170,11 @@ function Activeproposal({ data }) {
           <div>
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </div>
-        </div>
+        </div> */}
         <div className={propstyle.tablediv}>
           {loading ? (
             <Skeleton active paragraph={{ rows: 10 }} block={true} />
-          ) : filteredData.length > 0 ? (
+          ) : filteredData && filteredData.length > 0 ? (
             <table>
               <thead className="text-center">
                 <tr>
@@ -80,6 +183,7 @@ function Activeproposal({ data }) {
                   <th>Contract Address</th>
                   <th>Status</th>
                   <th>Explore</th>
+                  <th>Claim</th>
                 </tr>
               </thead>
               <tbody className="text-center">
@@ -93,6 +197,7 @@ function Activeproposal({ data }) {
                       <Tooltip title="copy">
                         <button
                           onClick={() => copyToClipboard(item.tokenAddress)}
+                          className="ml-1"
                         >
                           <FontAwesomeIcon icon={faCopy} />
                         </button>
@@ -107,6 +212,7 @@ function Activeproposal({ data }) {
                       <Tooltip title="copy">
                         <button
                           onClick={() => copyToClipboard(item.contractAddress)}
+                          className="ml-1"
                         >
                           <FontAwesomeIcon icon={faCopy} />
                         </button>
@@ -124,6 +230,30 @@ function Activeproposal({ data }) {
                           View <strong>↗</strong>
                         </button>
                       </Tooltip>
+                    </td>
+                    <td>
+                      {/* <a href="/check" rel="noopener noreferrer">
+                        <button className={`${formstyle.buttonin1stp} button`}>
+                          Claim Tokens
+                        </button>
+                      </a> */}
+                      {item.contractAddress === ACTIVE_CONTRACT_ADDRESS ? (
+                        <a href="/check" rel="noopener noreferrer">
+                          <button
+                            className={`${formstyle.buttonin1stp} button cursor-pointer`}
+                          >
+                            Claim Tokens
+                          </button>
+                        </a>
+                      ) : (
+                        // <a href="/check" rel="noopener noreferrer">
+                        <button
+                          className={`${formstyle.buttonin1stp} button cursor-not-allowed opacity-60`}
+                        >
+                          Claim Tokens
+                        </button>
+                        // </a>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -171,6 +301,29 @@ function Activeproposal({ data }) {
               </div>
             </div>
             <div className={propstyle.divdetail}>
+              <div className={propstyle.titledetail}>TVL</div>
+              <div className={propstyle.titlecontent}>
+                {selectedData.totalAmount}
+              </div>
+            </div>
+            <div className={propstyle.divdetail}>
+              <div className={propstyle.titledetail}>Total Holders</div>
+              <div className={propstyle.titlecontent}>
+                {selectedData.totalAccount}
+              </div>
+            </div>
+            <div className={propstyle.divdetail}>
+              <div className={propstyle.titledetail}> View Token Holders</div>
+              <div className={propstyle.titlecontent}>
+                <Tooltip title="Click here to view addresses with locked tokens and their amounts.">
+                  <button text-blue-900 onClick={handleOpenModal}>
+                    {/* <strong> */}
+                    Token Holders ↗{/* </strong> */}
+                  </button>
+                </Tooltip>
+              </div>
+            </div>
+            {/* <div className={propstyle.divdetail}>
               <div className={propstyle.titledetail}>EAS schema UID</div>
               <div className={propstyle.titlecontent}>
                 <a
@@ -180,6 +333,12 @@ function Activeproposal({ data }) {
                 >
                   Click to view Schema
                 </a>
+              </div>
+            </div> */}
+            <div className={propstyle.divdetail}>
+              <div className={propstyle.titledetail}>Chain</div>
+              <div className={propstyle.titlecontent}>
+                {chainName[selectedData?.chainId]}
               </div>
             </div>
             <div className={propstyle.divdetail}>
@@ -195,8 +354,17 @@ function Activeproposal({ data }) {
           </div>
         )}
       </Modal>
+      <AntdModal
+        title=""
+        visible={modalVisible}
+        onCancel={handleCloseModal}
+        footer={null}
+        className="modal"
+        bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }}
+      >
+        <TransactionsModalContent selectedData={selectedData} />
+      </AntdModal>
     </div>
   );
 }
-
 export default Activeproposal;

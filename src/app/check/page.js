@@ -5,9 +5,12 @@ import formstyle from "../../Components/SubmitDao/stepfrom.module.css";
 import { useAccount, useConnect } from "wagmi";
 import { message } from "antd";
 import Navbar from "@/Components/Navbar/Navbar";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import PropagateLoader from "react-spinners/PropagateLoader"; 
+import {AlertCircle} from "lucide-react"
 
 function MainPage() {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, status } = useAccount();
   const { connect } = useConnect();
   const [tokens, setTokens] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -64,13 +67,25 @@ function MainPage() {
     }
   };
 
+  // useEffect(() => {
+  //   if (isConnected && address && !walletChecked) {
+  //     fetchDataFromApi(address);
+  //     setWalletChecked(true); // Prevents refetching when walletChecked is true
+  //   } else if (!isConnected && !walletChecked) {
+  //     message.warning("Please connect your wallet first");
+  //     setWalletChecked(true); // Set this to prevent repeated warnings
+  //   }
+  // }, [isConnected, address, walletChecked]);
+
   useEffect(() => {
-    if (address) {
+    // Only fetch data if the wallet is connected and we have the address
+    if (status === "connected" && address) {
       fetchDataFromApi(address);
-    } else {
-      message.warning("Please connect your wallet first");
     }
-  }, [address]);
+    // else{
+    //   message.warning("Please connect your wallet first");
+    // }
+  }, [status, address]);
 
   return (
     <>
@@ -83,7 +98,19 @@ function MainPage() {
             Token Resurrection
           </h1>
 
-          {isLoading ? <p>Loading...</p> : <AddressList tokens={tokens} />}
+          {!isConnected ? (
+            <div className="text-center p-6 bg-gray-100 rounded-lg shadow-md max-w-md mx-auto">
+            <AlertCircle className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">Please connect your wallet to proceed.</h3>
+            
+            </div>
+          ) : isLoading ? (
+            <div className="flex justify-center">
+              <PropagateLoader color={"#123abc"} loading={isLoading} size={15} />
+            </div>
+          ) : (
+            <AddressList tokens={tokens} />
+          )}
         </div>
       </div>
     </>

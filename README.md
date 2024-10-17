@@ -70,8 +70,3 @@ Integration of Merkle root creation with EAS in the resolver contract encountere
 [Token Resurrection Contract Address](https://sepolia.basescan.org/address/0x352349c1aF3f45faed79AEF9dA762BAEE02363cc#code)
 
 Despite challenges, our solution's feasibility and benefits were validated through comprehensive data analysis and implementation efforts. 🚀
-
-{
-"message": "Merkle tree created successfully",
-"merkleRoot": "0x93d66c261b3944efc41587e711818ac037ec3d2bae8cd9363afcea5ecb8d7461"
-}
